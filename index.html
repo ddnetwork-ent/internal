@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DDNetwork One | Internal Crew Dashboard</title>
+    <meta name="description" content="Internal management system for DDNetwork One crew.">
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -310,7 +311,8 @@
 
     <script>
         // --- CONFIGURATION ---
-        const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE"; // <--- PASTE URL HERE
+        // NEW URL INTEGRATED
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtbJ7cgEcMztSm0sm-NNT00aqbnWb8--FrALYLMg5KYmXBxNR634UPrGUCvZJrSmAY/exec"; 
 
         // Local State
         let orders = [];
@@ -329,6 +331,14 @@
             try {
                 const response = await fetch(SCRIPT_URL);
                 const data = await response.json();
+                
+                // Check if data has error field
+                if(data.status === 'error') {
+                    showToast("Backend Error: " + data.message);
+                    console.error("Backend Error:", data.message);
+                    return;
+                }
+
                 orders = data.orders || [];
                 clients = data.clients || [];
                 renderDashboard();
@@ -338,15 +348,20 @@
             }
         }
 
-        // Fixed Fetch Function with Headers
         async function sendSheetData(action, payload) {
             const body = { action: action, ...payload };
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                headers: { "Content-Type": "application/json" }, // <-- CRITICAL FIX
+                headers: { "Content-Type": "application/json" }, 
                 body: JSON.stringify(body)
             });
-            return response.json();
+            const res = await response.json();
+            
+            if(res.status === 'error') {
+                showToast("Script Error: " + res.message);
+                throw new Error(res.message);
+            }
+            return res;
         }
 
         // --- AUTHENTICATION ---
