@@ -14,27 +14,51 @@
     <style>
         /* --- CSS VARIABLES --- */
         :root {
-            --bg-body: #f8fafc; --bg-white: #ffffff; --bg-offset: #f1f5f9;
-            --text-main: #0f172a; --text-secondary: #64748b;
-            --primary: #2563eb; --primary-dark: #1d4ed8; --primary-light: #eff6ff;
-            --accent: #f59e0b; --success: #10b981; --danger: #ef4444;
-            --border: #e2e8f0; --radius-lg: 24px; --radius-md: 16px; --radius-sm: 8px;
+            --bg-body: #f8fafc; 
+            --bg-white: #ffffff;
+            --bg-offset: #f1f5f9;
+            --text-main: #0f172a;
+            --text-secondary: #64748b; 
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            
+            --border: #e2e8f0;
+            
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            
             --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
             --sidebar-width: 260px;
         }
 
+        /* --- RESET & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; height: 100vh; overflow: hidden; }
-        
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6; 
+            -webkit-font-smoothing: antialiased;
+            height: 100vh;
+            overflow: hidden;
+        }
+
         /* --- UTILITIES --- */
         .hidden { display: none !important; }
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
         .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
         .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
         .gap-2 { gap: 0.5rem; }
         .gap-4 { gap: 1rem; }
         .text-sm { font-size: 0.875rem; }
@@ -43,10 +67,31 @@
         .text-success { color: var(--success); }
 
         /* --- BUTTONS --- */
-        .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; font-family: inherit; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 0.9rem; }
-        .btn-primary { background-color: var(--text-main); color: white; }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background-color: var(--text-main);
+            color: white;
+        }
         .btn-primary:hover { background-color: var(--primary); }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
         .btn-outline:hover { background: var(--bg-offset); }
         .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
         .btn-icon { padding: 6px; display: flex; align-items: center; justify-content: center; }
@@ -54,79 +99,295 @@
         .btn-danger:hover { background-color: #dc2626; }
 
         /* --- LOGIN SCREEN --- */
-        #login-screen { width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); position: relative; z-index: 50; }
-        .login-card { background: white; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border); }
-        .login-logo { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; margin-bottom: 20px; box-shadow: var(--shadow-md); }
+        #login-screen {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            position: relative;
+            z-index: 50;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
-        .form-input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; font-family: inherit; transition: 0.2s; }
+        .form-input {
+            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+            font-size: 1rem; font-family: inherit; transition: 0.2s;
+        }
         .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        .error-msg { color: var(--danger); font-size: 0.85rem; margin-bottom: 15px; display: none; background: #fef2f2; padding: 8px; border-radius: 4px; border: 1px solid #fecaca; }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: none;
+            background: #fef2f2;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #fecaca;
+        }
 
         /* --- DASHBOARD LAYOUT --- */
-        #app-screen { display: flex; height: 100vh; width: 100%; }
-        aside { width: var(--sidebar-width); background: white; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px; transition: transform 0.3s ease; z-index: 20; }
-        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        #app-screen {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* SIDEBAR */
+        aside {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            transition: transform 0.3s ease;
+            z-index: 20;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
         .brand img { width: 32px; height: 32px; border-radius: 6px; }
         .brand h2 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+
         .nav-menu { list-style: none; flex-grow: 1; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; margin-bottom: 8px; border-radius: var(--radius-sm); cursor: pointer; color: var(--text-secondary); font-weight: 500; transition: all 0.2s; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
         .nav-item:hover { background: var(--bg-offset); color: var(--text-main); }
         .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
         .nav-item svg { width: 20px; height: 20px; stroke-width: 2; }
-        .user-profile { border-top: 1px solid var(--border); padding-top: 20px; display: flex; align-items: center; gap: 12px; }
-        .user-avatar { width: 40px; height: 40px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+        .user-profile {
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-avatar {
+            width: 40px; height: 40px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
         .user-info h4 { font-size: 0.9rem; font-weight: 700; }
         .user-info p { font-size: 0.75rem; color: var(--text-secondary); }
 
-        main { flex-grow: 1; overflow-y: auto; padding: 32px; background: var(--bg-body); }
-        header.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+        /* MAIN CONTENT */
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 32px;
+            background: var(--bg-body);
+        }
+
+        header.top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
         .page-title h1 { font-size: 1.8rem; font-weight: 800; }
         .page-title p { color: var(--text-secondary); }
 
-        /* STATS & TABLES */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 32px; }
-        .stat-card { background: white; padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 20px; transition: transform 0.2s; }
+        /* DASHBOARD CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.2s;
+        }
         .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .stat-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+        }
         .bg-blue { background: #eff6ff; color: #2563eb; }
         .bg-green { background: #ecfdf5; color: #10b981; }
         .bg-orange { background: #fff7ed; color: #f59e0b; }
 
-        .table-container { background: white; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 32px; }
-        .table-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        /* TABLES */
+        .table-container {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
         .table-header h3 { font-size: 1.1rem; font-weight: 700; }
         .table-header-controls { display: flex; gap: 10px; align-items: center; }
+        
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: var(--bg-offset); color: var(--text-secondary); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        th, td {
+            padding: 16px 24px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: var(--bg-offset);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background-color: #fafafa; }
 
-        /* BADGES */
-        .badge { padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        /* STATUS BADGES */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
         .badge-pending { background: #fff7ed; color: #f59e0b; border: 1px solid #ffedd5; }
         .badge-completed { background: #ecfdf5; color: #10b981; border: 1px solid #d1fae5; }
         .badge-cancelled { background: #fef2f2; color: #ef4444; border: 1px solid #fee2e2; }
 
         /* CLIENT GRID */
-        .client-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-        .client-card { background: white; padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; text-align: center; transition: transform 0.2s; }
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .client-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s;
+        }
         .client-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .client-avatar-lg { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 16px; object-fit: cover; border: 3px solid var(--primary-light); }
+        .client-avatar-lg {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            margin-bottom: 16px;
+            object-fit: cover;
+            border: 3px solid var(--primary-light);
+        }
 
-        /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.2s; }
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-box { background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); transform: scale(0.95); transition: transform 0.2s; }
+        
+        .modal-box {
+            background: white;
+            width: 90%; max-width: 500px;
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.95);
+            transition: transform 0.2s;
+        }
         .modal-overlay.active .modal-box { transform: scale(1); }
 
-        /* TOAST */
-        #toast { position: fixed; bottom: 20px; right: 20px; background: var(--text-main); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 200; transform: translateY(100px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        /* TOAST NOTIFICATION */
+        #toast {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            background: var(--text-main);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            z-index: 200;
+            transform: translateY(100px);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         #toast.active { transform: translateY(0); }
 
-        /* MOBILE */
+        /* MOBILE RESPONSIVENESS */
         .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        
         @media (max-width: 768px) {
             aside { position: fixed; left: -100%; height: 100%; box-shadow: var(--shadow-lg); }
             aside.open { left: 0; transform: translateX(0); }
@@ -147,7 +408,9 @@
             <img src="https://raw.githubusercontent.com/ddnetwork-ent/DDN-One/refs/heads/main/DD-LOGO.JPEG" alt="Logo" class="login-logo">
             <h2 style="margin-bottom: 8px;">Crew Login</h2>
             <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 0.9rem;">DDNetwork One Internal Panel</p>
+            
             <div id="login-error" class="error-msg">Invalid username or password.</div>
+
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -157,12 +420,14 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Access Dashboard</button>
+                <button type="submit" id="loginBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                    <span id="loginBtnText">Access Dashboard</span>
+                </button>
             </form>
         </div>
     </div>
 
-    <!-- === APP DASHBOARD === -->
+    <!-- === APP DASHBOARD (Initially Hidden) === -->
     <div id="app-screen" class="hidden">
         
         <!-- Sidebar -->
@@ -171,18 +436,31 @@
                 <img src="https://raw.githubusercontent.com/ddnetwork-ent/DDN-One/refs/heads/main/DD-LOGO.JPEG" alt="Logo">
                 <h2>DDN <span style="color:var(--primary)">One</span></h2>
             </div>
+
             <ul class="nav-menu">
-                <li class="nav-item active" onclick="switchTab('dashboard')">Dashboard</li>
-                <li class="nav-item" onclick="switchTab('orders')">Orders</li>
-                <li class="nav-item" onclick="switchTab('clients')">Clients</li>
+                <li class="nav-item active" onclick="switchTab('dashboard')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Dashboard
+                </li>
+                <li class="nav-item" onclick="switchTab('orders')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    Orders
+                </li>
+                <li class="nav-item" onclick="switchTab('clients')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Clients
+                </li>
             </ul>
+
             <div class="user-profile">
                 <div class="user-avatar" id="userInitials">DD</div>
                 <div class="user-info">
                     <h4 id="userNameDisplay">Danial Danish</h4>
                     <p id="userRoleDisplay">Admin / Founder</p>
                 </div>
-                <button class="btn-outline btn-sm" onclick="logout()" style="margin-left: auto; padding: 6px 10px;">Logout</button>
+                <button class="btn-outline btn-sm" onclick="logout()" style="margin-left: auto; padding: 6px 10px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </button>
             </div>
         </aside>
 
@@ -190,15 +468,23 @@
         <main>
             <header class="top-bar">
                 <div class="flex items-center gap-4">
-                    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
                     <div class="page-title">
                         <h1 id="page-header-title">Dashboard Overview</h1>
-                        <p id="page-header-subtitle">Welcome back.</p>
+                        <p id="page-header-subtitle">Welcome back to the control center.</p>
                     </div>
+                </div>
+                
+                <!-- Notification Icon -->
+                <div style="position: relative; cursor: pointer;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span style="position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 2px solid white;"></span>
                 </div>
             </header>
 
-            <!-- VIEW: DASHBOARD -->
+            <!-- VIEW: DASHBOARD (STATS) -->
             <div id="view-dashboard" class="view-section">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -227,24 +513,30 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="table-container">
                     <div class="table-header">
                         <h3>Recent Orders</h3>
                         <button class="btn btn-outline btn-sm" onclick="switchTab('orders')">View All</button>
                     </div>
-                    <table id="recent-orders-table"></table>
+                    <table id="recent-orders-table">
+                        <!-- Populated by JS -->
+                    </table>
                 </div>
             </div>
 
-            <!-- VIEW: ORDERS -->
+            <!-- VIEW: ORDERS (FULL TABLE) -->
             <div id="view-orders" class="view-section hidden">
                 <div class="table-container">
                     <div class="table-header">
                         <h3>All Client Orders</h3>
                         <div class="table-header-controls">
                             <input type="text" id="orderSearch" placeholder="Search..." class="form-input" style="padding: 6px 12px; width: 180px; font-size: 0.9rem;" onkeyup="filterOrders()">
-                            <button class="btn btn-outline btn-sm" onclick="toggleSort()">Sort <span id="sortText">Newest</span></button>
-                            <button class="btn btn-primary btn-sm" onclick="openCreateModal()">New Order</button>
+                            
+                            <button class="btn btn-primary btn-sm" onclick="openCreateModal()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                New Order
+                            </button>
                         </div>
                     </div>
                     <table>
@@ -255,28 +547,34 @@
                                 <th>Package</th>
                                 <th>Price</th>
                                 <th>Status</th>
-                                <th>Last Updated</th>
+                                <th>Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="orders-table-body"></tbody>
+                        <tbody id="orders-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
                     </table>
                 </div>
             </div>
 
             <!-- VIEW: CLIENTS -->
             <div id="view-clients" class="view-section hidden">
-                <div class="client-grid" id="client-grid-container"></div>
+                <div class="client-grid" id="client-grid-container">
+                    <!-- Populated by JS -->
+                </div>
             </div>
 
         </main>
     </div>
 
-    <!-- === MODAL === -->
+    <!-- === CREATE/EDIT ORDER MODAL === -->
     <div class="modal-overlay" id="createModal">
         <div class="modal-box">
             <h2 id="modalTitle" style="margin-bottom: 20px;">Create New Order</h2>
+            
             <input type="hidden" id="editOrderId">
+
             <form id="orderForm" onsubmit="handleFormSubmit(event)">
                 <div class="form-group">
                     <label>Client Name</label>
@@ -303,85 +601,61 @@
         </div>
     </div>
 
-    <!-- === TOAST === -->
+    <!-- === TOAST NOTIFICATION === -->
     <div id="toast">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="toastMsg">Action Successful</span>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        // NEW URL INTEGRATED
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwW5Gx9ldQs52DkSHjG8RRcJ_ZeOeAn3AM6Wyn5qfD3zEbTeOFIamurFXEZSqLhUZIy/exec"; 
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzesn4gtApx-HZuTaVoeOX9pk-YzoNLbbXHUnOtBwqTyGZxkjL3W1rNS5LbKsd6DXsEqA/exec"; 
+        // ==========================================
 
-        // Local State
-        let orders = [];
-        let clients = [];
-        let currentUser = null;
-        let sortOrder = 'desc'; 
-
+        // Hardcoded Users
         const users = [
             { user: 'danial', pass: 'dd1234', name: 'Danial Danish', role: 'Admin / Founder' },
             { user: 'bella', pass: 'bella123', name: 'Nurul Nabila', role: 'Admin / Founder' }
         ];
 
-        // --- API FUNCTIONS ---
+        // State
+        let orders = [];
+        let currentUser = null;
+        let isEditing = false;
 
-        async function fetchData() {
-            try {
-                const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
-                
-                // Check if data has error field
-                if(data.status === 'error') {
-                    showToast("Backend Error: " + data.message);
-                    console.error("Backend Error:", data.message);
-                    return;
-                }
+        const clients = [
+            { name: 'Klinik Pergigian Azam', industry: 'Healthcare', img: 'https://picsum.photos/seed/clinic/200/200' },
+            { name: 'PNE Arena', industry: 'Sports', img: 'https://picsum.photos/seed/pne/200/200' },
+            { name: 'Startup Malaysia', industry: 'Technology', img: 'https://picsum.photos/seed/startup/200/200' },
+            { name: 'Personal Portfolio', industry: 'Freelance', img: 'https://picsum.photos/seed/folio/200/200' }
+        ];
 
-                orders = data.orders || [];
-                clients = data.clients || [];
-                renderDashboard();
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                showToast("Error connecting to database");
-            }
-        }
-
-        async function sendSheetData(action, payload) {
-            const body = { action: action, ...payload };
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" }, 
-                body: JSON.stringify(body)
-            });
-            const res = await response.json();
-            
-            if(res.status === 'error') {
-                showToast("Script Error: " + res.message);
-                throw new Error(res.message);
-            }
-            return res;
-        }
-
-        // --- AUTHENTICATION ---
+        // ==========================================
+        // AUTHENTICATION
+        // ==========================================
 
         function handleLogin(e) {
             e.preventDefault();
             const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value.trim();
             const errorMsg = document.getElementById('login-error');
+
             const foundUser = users.find(user => user.user === u && user.pass === p);
 
             if (foundUser) {
                 currentUser = foundUser;
                 errorMsg.style.display = 'none';
+                
                 document.getElementById('userNameDisplay').innerText = currentUser.name;
                 document.getElementById('userRoleDisplay').innerText = currentUser.role;
                 document.getElementById('userInitials').innerText = currentUser.name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('app-screen').classList.remove('hidden');
-                fetchData(); // Load Data
+                
+                loadDashboardData();
             } else {
                 errorMsg.style.display = 'block';
                 const card = document.querySelector('.login-card');
@@ -398,7 +672,238 @@
             document.getElementById('login-screen').classList.remove('hidden');
         }
 
-        // --- UI LOGIC ---
+        // ==========================================
+        // DATA LOADING
+        // ==========================================
+
+        async function loadDashboardData() {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL);
+                const data = await response.json();
+                
+                // Sort by Date (Newest first)
+                data.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                orders = data;
+                renderDashboard();
+            } catch (err) {
+                console.error("Error loading data:", err);
+                showToast("Error loading data. Refresh page.");
+            }
+        }
+
+        // ==========================================
+        // SAVING & UPDATING DATA
+        // ==========================================
+
+        // 1. Handle Create or Edit
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('clientName').value;
+            const pkg = document.getElementById('packageType').value;
+            const price = 'RM ' + document.getElementById('priceValue').value;
+            const id = document.getElementById('editOrderId').value;
+            const btn = document.getElementById('saveBtn');
+
+            btn.disabled = true;
+            btn.innerText = "Saving...";
+
+            try {
+                let payload = { action: 'create', name, package: pkg, price };
+
+                if (id) {
+                    // Editing existing
+                    payload.action = 'update_details';
+                    payload.id = id;
+                }
+
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                showToast(id ? "Order updated!" : "Order created!");
+                closeModal();
+                
+                setTimeout(loadDashboardData, 1500); 
+
+            } catch (err) {
+                console.error(err);
+                showToast("Error saving data");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = isEditing ? "Save Changes" : "Create Order";
+            }
+        }
+
+        // 2. Handle Status Change (Complete / Cancel / Undo)
+        async function updateStatus(id, newStatus) {
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'update_status', id: id, newStatus: newStatus })
+                });
+
+                // Optimistic UI Update
+                const order = orders.find(o => o.id === id);
+                if(order) order.status = newStatus;
+                
+                renderDashboard();
+                showToast(`Order marked as ${newStatus}`);
+
+            } catch (err) {
+                console.error(err);
+                showToast("Error updating status");
+            }
+        }
+
+        // ==========================================
+        // RENDERING LOGIC
+        // ==========================================
+
+        function renderDashboard() {
+            const pending = orders.filter(o => o.status === 'Pending').length;
+            const completed = orders.filter(o => o.status === 'Completed').length;
+            
+            let total = 0;
+            orders.forEach(o => {
+                if(o.status === 'Completed') {
+                    let val = parseInt(o.price.replace(/[^0-9]/g, '')); 
+                    if(!isNaN(val)) total += val;
+                }
+            });
+
+            document.getElementById('pendingOrdersCount').innerText = pending;
+            document.getElementById('completedOrdersCount').innerText = completed;
+            document.getElementById('totalRevenue').innerText = `RM ${total.toLocaleString()}`;
+
+            const tbody = document.getElementById('recent-orders-table');
+            tbody.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Client</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${orders.slice(0, 3).map(order => `
+                        <tr>
+                            <td style="font-weight:600;">${order.id}</td>
+                            <td>${order.name}</td>
+                            <td>${getStatusBadge(order.status)}</td>
+                            <td>${order.price}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            renderOrdersTable();
+            renderClients();
+        }
+
+        function renderOrdersTable() {
+            const tbody = document.getElementById('orders-table-body');
+            const filter = document.getElementById('orderSearch').value.toLowerCase();
+
+            const filtered = orders.filter(o => 
+                o.name.toLowerCase().includes(filter) || 
+                o.package.toLowerCase().includes(filter) ||
+                o.id.toLowerCase().includes(filter)
+            );
+
+            tbody.innerHTML = filtered.map(order => {
+                // Determine buttons based on status
+                let actionButtons = '';
+                
+                if (order.status === 'Pending') {
+                    actionButtons = `
+                        <button class="btn btn-primary btn-sm" onclick="updateStatus('${order.id}', 'Completed')">Complete</button>
+                        <button class="btn btn-danger btn-sm" onclick="updateStatus('${order.id}', 'Cancelled')">Cancel</button>
+                    `;
+                } else if (order.status === 'Completed') {
+                    actionButtons = `<button class="btn btn-outline btn-sm" onclick="updateStatus('${order.id}', 'Pending')" title="Revert to Pending">Undo</button>`;
+                } else if (order.status === 'Cancelled') {
+                    actionButtons = `<button class="btn btn-primary btn-sm" onclick="updateStatus('${order.id}', 'Pending')" title="Reopen Order">Reopen</button>`;
+                }
+
+                return `
+                <tr>
+                    <td style="font-weight:600; color:var(--text-secondary);">${order.id}</td>
+                    <td style="font-weight:500;">${order.name}</td>
+                    <td>${order.package}</td>
+                    <td style="font-weight:700;">${order.price}</td>
+                    <td>${getStatusBadge(order.status)}</td>
+                    <td style="font-size: 0.85rem; color: var(--text-secondary);">${order.date}</td>
+                    <td>
+                        <div class="flex gap-2 items-center">
+                            <!-- EDIT BUTTON -->
+                            <button class="btn btn-outline btn-icon" onclick="openEditModal('${order.id}')" title="Edit Order">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </button>
+                            <!-- STATUS BUTTONS -->
+                            <div class="flex gap-2">
+                                ${actionButtons}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        function renderClients() {
+            const container = document.getElementById('client-grid-container');
+            container.innerHTML = clients.map(c => `
+                <div class="client-card">
+                    <img src="${c.img}" class="client-avatar-lg" alt="${c.name}">
+                    <h3 style="font-size:1.1rem; margin-bottom:4px;">${c.name}</h3>
+                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:16px;">${c.industry}</p>
+                    <a href="https://github.com/ddnetwork-ent/clinic-azam-dental" target="_blank" class="btn btn-outline btn-sm">
+                        View Profile
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // UI HELPERS
+        // ==========================================
+
+        function openCreateModal() {
+            document.getElementById('orderForm').reset();
+            document.getElementById('editOrderId').value = ''; 
+            document.getElementById('modalTitle').innerText = 'Create New Order';
+            document.getElementById('saveBtn').innerText = 'Create Order';
+            isEditing = false;
+            document.getElementById('createModal').classList.add('active');
+            document.getElementById('clientName').focus();
+        }
+
+        function openEditModal(id) {
+            const order = orders.find(o => o.id === id);
+            if (!order) return;
+
+            document.getElementById('editOrderId').value = order.id; 
+            document.getElementById('clientName').value = order.name;
+            document.getElementById('packageType').value = order.package;
+            document.getElementById('priceValue').value = order.price.replace('RM ', ''); 
+
+            document.getElementById('modalTitle').innerText = 'Edit Order';
+            document.getElementById('saveBtn').innerText = 'Save Changes';
+            isEditing = true;
+            document.getElementById('createModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('createModal').classList.remove('active');
+        }
 
         function switchTab(tabId) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -409,198 +914,25 @@
 
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
             document.getElementById(`view-${tabId}`).classList.remove('hidden');
-            document.getElementById('sidebar').classList.remove('open');
+
+            const titles = {
+                'dashboard': ['Dashboard Overview', 'Welcome back to control center.'],
+                'orders': ['Order Management', 'Create, Edit, and manage client requests.'],
+                'clients': ['Client Database', 'Managed clients and their portfolios.']
+            };
+            document.getElementById('page-header-title').innerText = titles[tabId][0];
+            document.getElementById('page-header-subtitle').innerText = titles[tabId][1];
+
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('open');
         }
 
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-        function toggleSort() {
-            sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
-            document.getElementById('sortText').innerText = sortOrder === 'desc' ? "Newest" : "Oldest";
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function filterOrders() {
             renderOrdersTable();
-        }
-
-        // --- RENDERING ---
-
-        function renderDashboard() {
-            const pending = orders.filter(o => o.status === 'Pending').length;
-            const completed = orders.filter(o => o.status === 'Completed').length;
-            let total = 0;
-            orders.forEach(o => {
-                if(o.status === 'Completed') {
-                    let val = parseInt(o.price.replace(/[^0-9]/g, ''));
-                    if(!isNaN(val)) total += val;
-                }
-            });
-
-            document.getElementById('pendingOrdersCount').innerText = pending;
-            document.getElementById('completedOrdersCount').innerText = completed;
-            document.getElementById('totalRevenue').innerText = `RM ${total.toLocaleString()}`;
-
-            const tbody = document.getElementById('recent-orders-table');
-            let recentOrders = [...orders];
-            if(sortOrder === 'asc') recentOrders.sort((a, b) => a.id.localeCompare(b.id));
-            else recentOrders.sort((a, b) => b.id.localeCompare(a.id));
-
-            tbody.innerHTML = `
-                <thead><tr><th>ID</th><th>Client</th><th>Status</th><th>Amount</th></tr></thead>
-                <tbody>
-                    ${recentOrders.slice(0, 3).map(order => `
-                        <tr>
-                            <td style="font-weight:600;">${order.id}</td>
-                            <td>${order.name}</td>
-                            <td>${getStatusBadge(order.status)}</td>
-                            <td>${order.price}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            `;
-            renderOrdersTable();
-            renderClients();
-        }
-
-        function renderOrdersTable() {
-            const tbody = document.getElementById('orders-table-body');
-            const filter = document.getElementById('orderSearch').value.toLowerCase();
-            let sortedOrders = [...orders];
-
-            if(sortOrder === 'asc') sortedOrders.sort((a, b) => a.id.localeCompare(b.id)); 
-            else sortedOrders.sort((a, b) => b.id.localeCompare(a.id));
-
-            const filtered = sortedOrders.filter(o => 
-                o.name.toLowerCase().includes(filter) || 
-                o.package.toLowerCase().includes(filter) ||
-                o.id.toLowerCase().includes(filter)
-            );
-
-            tbody.innerHTML = filtered.map(order => {
-                let actionButtons = '';
-                if (order.status === 'Pending') {
-                    actionButtons = `
-                        <button class="btn btn-primary btn-sm" onclick="updateSheetStatus('${order.id}', 'Completed')">Complete</button>
-                        <button class="btn btn-danger btn-sm" onclick="updateSheetStatus('${order.id}', 'Cancelled')">Cancel</button>
-                    `;
-                } else if (order.status === 'Completed') {
-                    actionButtons = `<button class="btn btn-outline btn-sm" onclick="updateSheetStatus('${order.id}', 'Pending')">Undo</button>`;
-                } else if (order.status === 'Cancelled') {
-                    actionButtons = `<button class="btn btn-primary btn-sm" onclick="updateSheetStatus('${order.id}', 'Pending')">Reopen</button>`;
-                }
-
-                return `
-                <tr>
-                    <td style="font-weight:600; color:var(--text-secondary);">${order.id}</td>
-                    <td style="font-weight:500;">${order.name}</td>
-                    <td>${order.package}</td>
-                    <td style="font-weight:700;">${order.price}</td>
-                    <td>${getStatusBadge(order.status)}</td>
-                    <td style="font-size: 0.85rem; color: var(--text-secondary);">${order.updatedAt}</td>
-                    <td>
-                        <div class="flex gap-2 items-center">
-                            <button class="btn btn-outline btn-icon" onclick="openEditModal('${order.id}')" title="Edit">✎</button>
-                            <div class="flex gap-2">${actionButtons}</div>
-                        </div>
-                    </td>
-                </tr>
-            `}).join('');
-        }
-
-        // --- MODAL & FORMS ---
-
-        function openCreateModal() {
-            document.getElementById('orderForm').reset();
-            document.getElementById('editOrderId').value = ''; 
-            document.getElementById('modalTitle').innerText = 'Create New Order';
-            document.getElementById('saveBtn').innerText = 'Create Order';
-            document.getElementById('createModal').classList.add('active');
-            document.getElementById('clientName').focus();
-        }
-
-        function openEditModal(id) {
-            const order = orders.find(o => o.id === id);
-            if (!order) return;
-            document.getElementById('editOrderId').value = order.id; 
-            document.getElementById('clientName').value = order.name;
-            document.getElementById('packageType').value = order.package;
-            document.getElementById('priceValue').value = order.price.replace('RM ', ''); 
-            document.getElementById('modalTitle').innerText = 'Edit Order';
-            document.getElementById('saveBtn').innerText = 'Save Changes';
-            document.getElementById('createModal').classList.add('active');
-        }
-
-        function closeModal() { document.getElementById('createModal').classList.remove('active'); }
-
-        async function handleFormSubmit(e) {
-            e.preventDefault();
-            const editId = document.getElementById('editOrderId').value;
-            const name = document.getElementById('clientName').value;
-            const pkg = document.getElementById('packageType').value;
-            const price = 'RM ' + document.getElementById('priceValue').value;
-            const btn = document.getElementById('saveBtn');
-            
-            btn.innerText = "Saving...";
-            btn.disabled = true;
-
-            try {
-                if (editId) {
-                    await sendSheetData('edit', { id: editId, name: name, package: pkg, price: price });
-                    const order = orders.find(o => o.id === editId);
-                    if(order) {
-                        order.name = name; order.package = pkg; order.price = price;
-                        order.updatedAt = new Date().toLocaleDateString('en-CA');
-                    }
-                    showToast('Order updated');
-                } else {
-                    const res = await sendSheetData('create', { name: name, package: pkg, price: price });
-                    const newOrder = {
-                        id: res.id, name: name, package: pkg, price: price,
-                        date: new Date().toLocaleDateString('en-CA'),
-                        status: 'Pending', updatedAt: new Date().toLocaleDateString('en-CA')
-                    };
-                    orders.unshift(newOrder);
-                    showToast('New order created');
-                }
-                renderOrdersTable();
-                renderDashboard();
-                closeModal();
-            } catch (err) {
-                console.error(err);
-                showToast("Error saving order");
-            } finally {
-                btn.innerText = editId ? "Save Changes" : "Create Order";
-                btn.disabled = false;
-            }
-        }
-
-        async function updateSheetStatus(id, newStatus) {
-            try {
-                await sendSheetData('status', { id: id, newStatus: newStatus });
-                const order = orders.find(o => o.id === id);
-                if(order) {
-                    order.status = newStatus;
-                    order.updatedAt = new Date().toLocaleDateString('en-CA');
-                }
-                renderOrdersTable();
-                renderDashboard();
-                showToast(`Order ${id} updated to ${newStatus}`);
-            } catch (err) {
-                console.error(err);
-                showToast("Error updating status");
-            }
-        }
-
-        function filterOrders() { renderOrdersTable(); }
-
-        function renderClients() {
-            const container = document.getElementById('client-grid-container');
-            container.innerHTML = clients.map(c => `
-                <div class="client-card">
-                    <img src="${c.img}" class="client-avatar-lg" alt="${c.name}">
-                    <h3 style="font-size:1.1rem; margin-bottom:4px;">${c.name}</h3>
-                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:16px;">${c.industry}</p>
-                    <a href="${c.link || 'https://github.com/ddnetwork-ent/clinic-azam-dental'}" target="_blank" class="btn btn-outline btn-sm">
-                        View Profile ↗
-                    </a>
-                </div>
-            `).join('');
         }
 
         function getStatusBadge(status) {
@@ -612,9 +944,12 @@
 
         function showToast(message) {
             const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = message;
+            const msg = document.getElementById('toastMsg');
+            msg.innerText = message;
             toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 3000);
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
         }
     </script>
 </body>
