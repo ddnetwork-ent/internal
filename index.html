@@ -2,54 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DDNetwork One - Internal</title>
-    <meta name="description" content="Internal management system for DDNetwork One crew.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DDNOne - Internal</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS VARIABLES --- */
+        /* --- CSS VARIABLES (SaaS Theme) --- */
         :root {
-            --bg-body: #f8fafc; 
-            --bg-white: #ffffff;
-            --bg-offset: #f1f5f9;
-            --text-main: #0f172a;
-            --text-secondary: #64748b; 
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #eff6ff;
-            --accent: #f59e0b;
-            --success: #10b981;
-            --danger: #ef4444;
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            
+            --primary: #4f46e5; /* Indigo 600 */
+            --primary-hover: #4338ca;
+            --primary-fg: #e0e7ff;
             
             --border: #e2e8f0;
+            --border-light: #f1f5f9;
             
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --radius-sm: 8px;
-            
-            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
 
             --sidebar-width: 260px;
+            --header-height: 64px;
+            
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        /* --- RESET & BASE --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* --- GLOBAL RESET --- */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.6; 
-            -webkit-font-smoothing: antialiased;
+            color: var(--text-primary);
             height: 100vh;
-            overflow: hidden;
+            width: 100vw;
+            overflow: hidden; /* Prevent body scroll, handle inside main */
+            display: flex;
         }
 
         /* --- UTILITIES --- */
@@ -57,384 +58,332 @@
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
         .items-center { align-items: center; }
-        .justify-center { justify-content: center; }
         .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
         .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
         .gap-4 { gap: 1rem; }
+        .w-full { width: 100%; }
+        
         .text-sm { font-size: 0.875rem; }
-        .font-bold { font-weight: 700; }
-        .text-primary { color: var(--primary); }
-        .text-success { color: var(--success); }
+        .text-xs { font-size: 0.75rem; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
 
-        /* --- BUTTONS --- */
+        /* --- BUTTONS (Bug Free & Touch Friendly) --- */
         .btn {
-            padding: 10px 20px;
+            display: inline-flex; align-items: center; justify-content: center;
+            height: 40px; /* Desktop height */
+            padding: 0 20px;
             border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
+            font-weight: 500;
             font-size: 0.9rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            gap: 8px;
         }
+        
+        .btn:active { transform: scale(0.98); }
+
         .btn-primary {
-            background-color: var(--text-main);
+            background-color: var(--primary);
             color: white;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.15);
         }
-        .btn-primary:hover { background-color: var(--primary); }
-        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+
         .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
+            background-color: var(--bg-surface);
+            border-color: var(--border);
+            color: var(--text-primary);
         }
-        .btn-outline:hover { background: var(--bg-offset); }
-        .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
-        .btn-icon { padding: 6px; display: flex; align-items: center; justify-content: center; }
-        .btn-danger { background-color: var(--danger); color: white; }
-        .btn-danger:hover { background-color: #dc2626; }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background-color: var(--primary-fg); }
 
-        /* --- LOGIN SCREEN --- */
-        #login-screen {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-            position: relative;
-            z-index: 50;
-        }
-
-        .login-card {
-            background: white;
-            padding: 40px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        .login-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            object-fit: cover;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); }
-        .form-input {
-            width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-            font-size: 1rem; font-family: inherit; transition: 0.2s;
-        }
-        .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-
-        .error-msg {
+        .btn-danger {
+            background-color: #fef2f2;
+            border-color: #fee2e2;
             color: var(--danger);
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-            display: none;
-            background: #fef2f2;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #fecaca;
         }
+        .btn-danger:hover { background-color: #fee2e2; }
 
-        /* --- DASHBOARD LAYOUT --- */
-        #app-screen {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-        /* SIDEBAR */
+        /* --- SIDEBAR --- */
         aside {
             width: var(--sidebar-width);
-            background: white;
+            background-color: var(--bg-surface);
             border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-            transition: transform 0.3s ease;
-            z-index: 20;
+            display: flex; flex-direction: column;
+            z-index: 30;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            height: var(--header-height);
+            display: flex; align-items: center; padding: 0 24px;
             border-bottom: 1px solid var(--border);
         }
-        .brand img { width: 32px; height: 32px; border-radius: 6px; }
-        .brand h2 { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+        .brand img { width: 32px; height: 32px; border-radius: 6px; margin-right: 12px; }
+        .brand h2 { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
 
-        .nav-menu { list-style: none; flex-grow: 1; }
+        .nav-menu { padding: 24px 16px; flex: 1; list-style: none; }
         .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            margin-bottom: 8px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            color: var(--text-secondary);
-            font-weight: 500;
-            transition: all 0.2s;
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; margin-bottom: 4px;
+            border-radius: 8px; color: var(--text-secondary);
+            font-weight: 500; font-size: 0.95rem;
+            cursor: pointer; transition: 0.2s;
         }
-        .nav-item:hover { background: var(--bg-offset); color: var(--text-main); }
-        .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+        .nav-item:hover { background-color: var(--border-light); color: var(--text-primary); }
+        .nav-item.active { background-color: var(--primary-fg); color: var(--primary); font-weight: 600; }
         .nav-item svg { width: 20px; height: 20px; stroke-width: 2; }
 
-        .user-profile {
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .user-avatar {
-            width: 40px; height: 40px;
-            background: var(--primary-light);
-            color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-        .user-info h4 { font-size: 0.9rem; font-weight: 700; }
-        .user-info p { font-size: 0.75rem; color: var(--text-secondary); }
-
-        /* MAIN CONTENT */
+        /* --- MAIN CONTENT AREA --- */
         main {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 32px;
-            background: var(--bg-body);
+            flex: 1;
+            display: flex; flex-direction: column;
+            overflow: hidden; /* Controls inner scroll */
+            position: relative;
         }
 
-        header.top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
+        /* HEADER */
+        header {
+            height: var(--header-height);
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 32px; z-index: 20;
         }
-        .page-title h1 { font-size: 1.8rem; font-weight: 800; }
-        .page-title p { color: var(--text-secondary); }
+        .page-title h1 { font-size: 1.25rem; font-weight: 600; }
+        .page-title p { font-size: 0.85rem; color: var(--text-secondary); }
 
-        /* DASHBOARD CARDS */
-        .stats-grid {
+        /* SCROLL AREA */
+        .content-area {
+            flex: 1; overflow-y: auto;
+            padding: 32px; /* Desktop Padding */
+            background-color: var(--bg-body);
+        }
+
+        /* --- CARDS & WIDGETS --- */
+        .grid-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
+            gap: 24px; margin-bottom: 32px;
         }
-        .stat-card {
-            background: white;
-            padding: 24px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: transform 0.2s;
-        }
-        .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .stat-icon {
-            width: 48px; height: 48px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-        }
-        .bg-blue { background: #eff6ff; color: #2563eb; }
-        .bg-green { background: #ecfdf5; color: #10b981; }
-        .bg-orange { background: #fff7ed; color: #f59e0b; }
 
-        /* TABLES */
-        .table-container {
-            background: white;
-            border-radius: var(--radius-lg);
+        .card {
+            background: var(--bg-surface);
             border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
             box-shadow: var(--shadow-sm);
-            overflow: hidden;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .stat-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--border-light); }
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--text-primary); }
+        .stat-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+
+        .bg-indigo { background: #e0e7ff; color: var(--primary); }
+        .bg-green { background: #dcfce7; color: var(--success); }
+        .bg-orange { background: #ffedd5; color: var(--warning); }
+
+        /* --- TABLES (Desktop) --- */
+        .table-container {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden; /* Contains table rows */
+            box-shadow: var(--shadow-sm);
             margin-bottom: 32px;
         }
-        .table-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .table-header h3 { font-size: 1.1rem; font-weight: 700; }
-        .table-header-controls { display: flex; gap: 10px; align-items: center; }
-        
-        table { width: 100%; border-collapse: collapse; }
-        th, td {
+        .table-controls {
             padding: 16px 24px;
-            text-align: left;
             border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
         }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--border); }
         th {
-            background: var(--bg-offset);
+            background-color: var(--bg-body);
             color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
         }
         tr:last-child td { border-bottom: none; }
-        tr:hover td { background-color: #fafafa; }
+        tr:hover td { background-color: #fafbfc; }
 
-        /* STATUS BADGES */
-        .badge {
-            padding: 4px 10px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .badge-pending { background: #fff7ed; color: #f59e0b; border: 1px solid #ffedd5; }
-        .badge-completed { background: #ecfdf5; color: #10b981; border: 1px solid #d1fae5; }
-        .badge-cancelled { background: #fef2f2; color: #ef4444; border: 1px solid #fee2e2; }
-
-        /* CLIENT GRID */
-        .client-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-        }
-        .client-card {
-            background: white;
-            padding: 24px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        .client-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .client-avatar-lg {
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            margin-bottom: 16px;
-            object-fit: cover;
-            border: 3px solid var(--primary-light);
-        }
+        /* STATUS PILLS */
+        .badge { padding: 4px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+        .badge-pending { background: #ffedd5; color: #b45309; }
+        .badge-completed { background: #dcfce7; color: #15803d; }
+        .badge-cancelled { background: #fee2e2; color: #b91c1c; }
 
         /* --- MODAL --- */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s;
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px); z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.2s;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         
-        .modal-box {
-            background: white;
-            width: 90%; max-width: 500px;
-            padding: 30px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            transform: scale(0.95);
-            transition: transform 0.2s;
+        .modal {
+            background: var(--bg-surface); width: 90%; max-width: 500px;
+            padding: 32px; border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            transform: scale(0.95); transition: 0.2s;
+            max-height: 90vh; overflow-y: auto;
         }
-        .modal-overlay.active .modal-box { transform: scale(1); }
+        .modal-overlay.active .modal { transform: scale(1); }
 
-        /* TOAST NOTIFICATION */
-        #toast {
-            position: fixed;
-            bottom: 20px; right: 20px;
-            background: var(--text-main);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            box-shadow: var(--shadow-lg);
-            z-index: 200;
-            transform: translateY(100px);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        /* --- FORMS --- */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 0.9rem; }
+        .form-input {
+            width: 100%; padding: 12px 16px;
+            border: 1px solid var(--border); border-radius: 8px;
+            font-size: 1rem; font-family: inherit; transition: 0.2s;
         }
-        #toast.active { transform: translateY(0); }
+        .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
-        /* MOBILE RESPONSIVENESS */
-        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
-        
+        /* --- TOAST --- */
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: #0f172a; color: white; padding: 12px 24px; border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 200;
+            transition: 0.3s; font-weight: 500;
+        }
+        .toast.active { transform: translateX(-50%) translateY(0); }
+
+        /* --- LOGIN SCREEN --- */
+        #login-screen {
+            position: fixed; inset: 0; z-index: 200;
+            background-color: #f1f5f9;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .login-box {
+            background: white; padding: 40px; width: 100%; max-width: 400px;
+            border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .login-logo { width: 64px; height: 64px; border-radius: 12px; margin-bottom: 24px; object-fit: cover; }
+
+        /* --- MOBILE RESPONSIVE SPECIFICS --- */
+        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; }
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 29; display: none; backdrop-filter: blur(2px); }
+
+        /* MEDIA QUERY FOR TABLETS/MOBILES */
         @media (max-width: 768px) {
-            aside { position: fixed; left: -100%; height: 100%; box-shadow: var(--shadow-lg); }
-            aside.open { left: 0; transform: translateX(0); }
+            /* 1. SIDEBAR BECOMES DRAWER */
+            aside {
+                position: fixed; left: -100%; height: 100%; width: 85%;
+                box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            }
+            aside.open { left: 0; transform: none; }
+            .sidebar-overlay.active { display: block; }
             .mobile-menu-btn { display: block; }
-            main { padding: 20px; }
-            .table-container { overflow-x: auto; }
-            table { min-width: 700px; } 
-            .table-header-controls { flex-direction: column; align-items: flex-start; width: 100%; }
-            .table-header-controls input { width: 100%; }
+            
+            /* 2. HEADER & CONTENT ADJUSTMENTS */
+            header { padding: 0 16px; }
+            .content-area { padding: 16px; } /* Less padding on mobile */
+            
+            /* 3. GRID STACKING */
+            .grid-stats { grid-template-columns: 1fr; gap: 16px; }
+            .card { padding: 16px; }
+            .stat-value { font-size: 1.5rem; }
+            
+            /* 4. SEARCH INPUT FULL WIDTH */
+            .table-controls { flex-direction: column; align-items: stretch; gap: 12px; }
+            .table-controls input { width: 100%; }
+
+            /* 5. TABLE TO CARD TRANSFORMATION (Robust CSS) */
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            
+            tr { 
+                background: var(--bg-surface); 
+                border: 1px solid var(--border); 
+                border-radius: 12px; margin-bottom: 16px;
+                padding: 16px; box-shadow: var(--shadow-sm);
+                display: flex; flex-direction: column; gap: 12px;
+            }
+            
+            td { 
+                text-align: right; border: none; padding: 0; 
+                position: relative; padding-left: 0;
+                display: flex; justify-content: space-between; align-items: center;
+                width: 100%; min-height: 0; /* Fix collapsed height issue */
+            }
+            
+            /* Create Labels for Mobile Cards */
+            td::before {
+                content: attr(data-label);
+                position: relative; float: left; font-weight: 600; color: var(--text-secondary);
+                font-size: 0.85rem; margin-right: 0; width: 45%; text-align: left;
+            }
+
+            /* Fixes for specific cells */
+            td[data-label="Client"] { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+            td[data-label="Client"]::before { content: none; float: none; } /* Remove label for name */
+            td[data-label="Status"] { justify-content: flex-end; }
+            td[data-label="Status"]::before { content: none; } /* Label not needed for visible badge */
+            td[data-label="Actions"] { border-top: 1px solid var(--border-light); padding-top: 12px; margin-top: 8px; display: block; width: 100%; }
+            td[data-label="Actions"]::before { content: none; }
+
+            /* 6. BUTTONS ON MOBILE (Full Width) */
+            .btn { height: 44px; /* iOS Standard Touch Target */ width: 100%; margin-bottom: 8px; }
+            .btn.w-auto { width: auto; }
+            .btn-icon { width: auto; }
+        }
+
+        /* DESKTOP SPECIFIC FIXES */
+        @media (min-width: 769px) {
+            /* Reset table hacks for desktop */
+            table, thead, tbody, th, td, tr { display: table; }
+            thead tr { position: static; }
+            tr { background: transparent; border: none; box-shadow: none; margin: 0; padding: 0; display: table-row; }
+            td { display: table-cell; text-align: left; }
+            td::before { content: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- === LOGIN SCREEN === -->
+    <!-- LOGIN SCREEN -->
     <div id="login-screen">
-        <div class="login-card">
-            <img src="https://raw.githubusercontent.com/ddnetwork-ent/DDN-One/refs/heads/main/DD-LOGO.JPEG" alt="Logo" class="login-logo">
-            <h2 style="margin-bottom: 8px;">Crew Login</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 0.9rem;">DDNetwork One Internal Panel</p>
+        <div class="login-box">
+            <img src="https://raw.githubusercontent.com/ddnetwork-ent/DDN-One/refs/heads/main/DD-LOGO.JPEG" class="login-logo" alt="Logo">
+            <h2 style="margin-bottom: 8px;">Welcome</h2>
+            <p class="text-secondary" style="margin-bottom: 32px;">DDNetwork One Dashboard</p>
             
-            <div id="login-error" class="error-msg">Invalid username or password.</div>
+            <div id="login-error" class="badge badge-cancelled hidden" style="margin-bottom: 20px; width: 100%;">Invalid username/password</div>
 
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <form onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" class="form-input" placeholder="Enter your username" required>
+                    <input type="text" id="username" class="form-input" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    <input type="password" id="password" class="form-input" placeholder="Password" required>
                 </div>
-                <button type="submit" id="loginBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
-                    <span id="loginBtnText">Access Dashboard</span>
-                </button>
+                <button type="submit" class="btn btn-primary w-full">Sign In</button>
             </form>
         </div>
     </div>
 
-    <!-- === APP DASHBOARD (Initially Hidden) === -->
-    <div id="app-screen" class="hidden">
+    <!-- APP SCREEN -->
+    <div id="app-screen" class="hidden" style="width: 100%; display: flex;">
         
-        <!-- Sidebar -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+        <!-- SIDEBAR -->
         <aside id="sidebar">
             <div class="brand">
                 <img src="https://raw.githubusercontent.com/ddnetwork-ent/DDN-One/refs/heads/main/DD-LOGO.JPEG" alt="Logo">
-                <h2>DDN <span style="color:var(--primary)">One</span></h2>
+                <h2>DDN <span style="color: var(--primary);">One</span></h2>
             </div>
 
             <ul class="nav-menu">
@@ -452,133 +401,126 @@
                 </li>
             </ul>
 
-            <div class="user-profile">
-                <div class="user-avatar" id="userInitials">DD</div>
-                <div class="user-info">
-                    <h4 id="userNameDisplay">Danial Danish</h4>
-                    <p id="userRoleDisplay">Admin / Founder</p>
+            <!-- User Profile (Footer of Sidebar) -->
+            <div style="padding: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; background: var(--primary-fg); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;" id="userInitials">DD</div>
+                <div style="flex: 1;">
+                    <h4 id="userNameDisplay" class="font-semibold">Danial Danish</h4>
+                    <p class="text-xs text-secondary">Admin</p>
                 </div>
-                <button class="btn-outline btn-sm" onclick="logout()" style="margin-left: auto; padding: 6px 10px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <button class="btn btn-outline btn-icon" onclick="logout()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 </button>
             </div>
         </aside>
 
-        <!-- Main Content -->
+        <!-- MAIN -->
         <main>
-            <header class="top-bar">
+            <header>
                 <div class="flex items-center gap-4">
                     <button class="mobile-menu-btn" onclick="toggleSidebar()">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                     </button>
                     <div class="page-title">
-                        <h1 id="page-header-title">Dashboard Overview</h1>
-                        <p id="page-header-subtitle">Welcome back to the control center.</p>
+                        <h1 id="page-title">Dashboard</h1>
                     </div>
                 </div>
-                
-                <!-- Notification Icon -->
-                <div style="position: relative; cursor: pointer;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <span style="position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 2px solid white;"></span>
+                <div class="flex items-center gap-3">
+                    <button class="btn btn-icon btn-outline">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    </button>
                 </div>
             </header>
 
-            <!-- VIEW: DASHBOARD (STATS) -->
-            <div id="view-dashboard" class="view-section">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon bg-blue">RM</div>
-                        <div>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600;">Total Revenue</p>
-                            <h2 style="font-size: 1.5rem;" id="totalRevenue">RM 0</h2>
+            <div class="content-area">
+                
+                <!-- DASHBOARD VIEW -->
+                <div id="view-dashboard">
+                    <div class="grid-stats">
+                        <div class="card">
+                            <div class="stat-header">
+                                <div class="stat-icon bg-indigo">RM</div>
+                            </div>
+                            <div class="stat-value" id="statRevenue">0</div>
+                            <div class="stat-label">Total Revenue</div>
+                        </div>
+                        <div class="card">
+                            <div class="stat-header">
+                                <div class="stat-icon bg-green">✓</div>
+                            </div>
+                            <div class="stat-value" id="statCompleted">0</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                        <div class="card">
+                            <div class="stat-header">
+                                <div class="stat-icon bg-orange">⏳</div>
+                            </div>
+                            <div class="stat-value" id="statPending">0</div>
+                            <div class="stat-label">Pending</div>
                         </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon bg-green">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+
+                    <div class="table-container">
+                        <div class="table-controls">
+                            <h3 class="font-semibold">Recent Activity</h3>
+                            <button class="btn btn-outline w-auto text-sm" onclick="switchTab('orders')">View All</button>
                         </div>
-                        <div>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600;">Completed Orders</p>
-                            <h2 style="font-size: 1.5rem;" id="completedOrdersCount">0</h2>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon bg-orange">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        </div>
-                        <div>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 600;">Pending Orders</p>
-                            <h2 style="font-size: 1.5rem;" id="pendingOrdersCount">0</h2>
-                        </div>
+                        <table id="recentTable">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Status</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
 
-                <div class="table-container">
-                    <div class="table-header">
-                        <h3>Recent Orders</h3>
-                        <button class="btn btn-outline btn-sm" onclick="switchTab('orders')">View All</button>
+                <!-- ORDERS VIEW -->
+                <div id="view-orders" class="hidden">
+                    <div class="table-container">
+                        <div class="table-controls">
+                            <input type="text" id="searchInput" class="form-input" placeholder="Search clients or packages..." onkeyup="handleSearch()">
+                            <button class="btn btn-primary w-auto" onclick="openModal()">New Order</button>
+                        </div>
+                        <table id="ordersTable">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Package</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-                    <table id="recent-orders-table">
-                        <!-- Populated by JS -->
-                    </table>
                 </div>
+
+                <!-- CLIENTS VIEW -->
+                <div id="view-clients" class="hidden">
+                    <div class="grid-stats" id="clientGrid">
+                        <!-- Populated JS -->
+                    </div>
+                </div>
+
             </div>
-
-            <!-- VIEW: ORDERS (FULL TABLE) -->
-            <div id="view-orders" class="view-section hidden">
-                <div class="table-container">
-                    <div class="table-header">
-                        <h3>All Client Orders</h3>
-                        <div class="table-header-controls">
-                            <input type="text" id="orderSearch" placeholder="Search..." class="form-input" style="padding: 6px 12px; width: 180px; font-size: 0.9rem;" onkeyup="filterOrders()">
-                            
-                            <button class="btn btn-primary btn-sm" onclick="openCreateModal()">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                New Order
-                            </button>
-                        </div>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Client</th>
-                                <th>Package</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-table-body">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- VIEW: CLIENTS -->
-            <div id="view-clients" class="view-section hidden">
-                <div class="client-grid" id="client-grid-container">
-                    <!-- Populated by JS -->
-                </div>
-            </div>
-
         </main>
     </div>
 
-    <!-- === CREATE/EDIT ORDER MODAL === -->
-    <div class="modal-overlay" id="createModal">
-        <div class="modal-box">
-            <h2 id="modalTitle" style="margin-bottom: 20px;">Create New Order</h2>
-            
-            <input type="hidden" id="editOrderId">
-
-            <form id="orderForm" onsubmit="handleFormSubmit(event)">
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 class="font-semibold" style="font-size: 1.25rem; margin-bottom: 24px;" id="modalTitle">Create Order</h2>
+            <input type="hidden" id="editId">
+            <form onsubmit="handleSave(event)">
                 <div class="form-group">
                     <label>Client Name</label>
-                    <input type="text" id="clientName" class="form-input" placeholder="e.g. Ahmad Albab" required>
+                    <input type="text" id="clientName" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label>Package</label>
@@ -591,365 +533,247 @@
                 </div>
                 <div class="form-group">
                     <label>Price (RM)</label>
-                    <input type="text" id="priceValue" class="form-input" placeholder="e.g. 500" required>
+                    <input type="text" id="priceValue" class="form-input" required>
                 </div>
-                <div class="flex gap-4" style="margin-top: 30px;">
-                    <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeModal()">Cancel</button>
-                    <button type="submit" id="saveBtn" class="btn btn-primary" style="flex:1;">Create Order</button>
+                <div class="flex gap-3" style="margin-top: 24px;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Create Order</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- === TOAST NOTIFICATION === -->
-    <div id="toast">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-        <span id="toastMsg">Action Successful</span>
-    </div>
+    <!-- TOAST -->
+    <div id="toast" class="toast">Action Successful</div>
 
     <script>
-        // ==========================================
-        // CONFIGURATION
-        // ==========================================
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzesn4gtApx-HZuTaVoeOX9pk-YzoNLbbXHUnOtBwqTyGZxkjL3W1rNS5LbKsd6DXsEqA/exec"; 
-        // ==========================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzesn4gtApx-HZuTaVoeOX9pk-YzoNLbbXHUnOtBwqTyGZxkjL3W1rNS5LbKsd6DXsEqA/exec";
 
-        // Hardcoded Users
         const users = [
-            { user: 'danial', pass: 'dd1234', name: 'Danial Danish', role: 'Admin / Founder' },
-            { user: 'bella', pass: 'bella123', name: 'Nurul Nabila', role: 'Admin / Founder' }
+            { user: 'danial', pass: 'dd1234', name: 'Danial Danish' },
+            { user: 'bella', pass: 'bella123', name: 'Nurul Nabila' }
         ];
 
-        // State
         let orders = [];
         let currentUser = null;
         let isEditing = false;
 
         const clients = [
-            { name: 'Klinik Pergigian Azam', industry: 'Healthcare', img: 'https://picsum.photos/seed/clinic/200/200' },
-            { name: 'PNE Arena', industry: 'Sports', img: 'https://picsum.photos/seed/pne/200/200' },
-            { name: 'Startup Malaysia', industry: 'Technology', img: 'https://picsum.photos/seed/startup/200/200' },
-            { name: 'Personal Portfolio', industry: 'Freelance', img: 'https://picsum.photos/seed/folio/200/200' }
+            { name: 'Klinik Pergigian Azam', industry: 'Healthcare' },
+            { name: 'PNE Arena', industry: 'Sports' },
+            { name: 'Startup Malaysia', industry: 'Tech' },
+            { name: 'Portfolio', industry: 'Personal' }
         ];
 
-        // ==========================================
-        // AUTHENTICATION
-        // ==========================================
-
+        // --- AUTH ---
         function handleLogin(e) {
             e.preventDefault();
             const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value.trim();
-            const errorMsg = document.getElementById('login-error');
+            const found = users.find(user => user.user === u && user.pass === p);
 
-            const foundUser = users.find(user => user.user === u && user.pass === p);
-
-            if (foundUser) {
-                currentUser = foundUser;
-                errorMsg.style.display = 'none';
-                
-                document.getElementById('userNameDisplay').innerText = currentUser.name;
-                document.getElementById('userRoleDisplay').innerText = currentUser.role;
-                document.getElementById('userInitials').innerText = currentUser.name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
-
+            if(found) {
+                currentUser = found;
+                document.getElementById('userNameDisplay').innerText = found.name;
+                document.getElementById('userInitials').innerText = found.name.split(' ').map(n=>n[0]).join('');
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('app-screen').classList.remove('hidden');
-                
-                loadDashboardData();
+                loadData();
             } else {
-                errorMsg.style.display = 'block';
-                const card = document.querySelector('.login-card');
-                card.style.transform = 'translateX(5px)';
-                setTimeout(() => card.style.transform = 'translateX(0)', 100);
+                document.getElementById('login-error').classList.remove('hidden');
             }
         }
 
-        function logout() {
-            currentUser = null;
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('app-screen').classList.add('hidden');
-            document.getElementById('login-screen').classList.remove('hidden');
+        function logout() { location.reload(); }
+
+        // --- NAVIGATION ---
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            const ol = document.getElementById('sidebarOverlay');
+            if(sb.classList.contains('open')) {
+                sb.classList.remove('open'); ol.classList.remove('active');
+            } else {
+                sb.classList.add('open'); ol.classList.add('active');
+            }
         }
 
-        // ==========================================
-        // DATA LOADING
-        // ==========================================
+        function switchTab(id) {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            const idx = { 'dashboard':0, 'orders':1, 'clients':2 }[id];
+            document.querySelectorAll('.nav-item')[idx].classList.add('active');
 
-        async function loadDashboardData() {
+            ['dashboard', 'orders', 'clients'].forEach(t => document.getElementById(`view-${t}`).classList.add('hidden'));
+            document.getElementById(`view-${id}`).classList.remove('hidden');
+            document.getElementById('page-title').innerText = id.charAt(0).toUpperCase() + id.slice(1);
+
+            if(window.innerWidth <= 768) {
+                const sb = document.getElementById('sidebar');
+                if(sb.classList.contains('open')) toggleSidebar();
+            }
+        }
+
+        // --- DATA LOGIC ---
+        async function loadData() {
             try {
-                const response = await fetch(GOOGLE_SCRIPT_URL);
-                const data = await response.json();
-                
-                // Sort by Date (Newest first)
-                data.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                orders = data;
-                renderDashboard();
-            } catch (err) {
-                console.error("Error loading data:", err);
-                showToast("Error loading data. Refresh page.");
-            }
+                const res = await fetch(GOOGLE_SCRIPT_URL);
+                const data = await res.json();
+                orders = data.sort((a,b) => new Date(b.date) - new Date(a.date));
+                renderAll();
+            } catch (err) { showToast("Error loading data"); console.error(err); }
         }
 
-        // ==========================================
-        // SAVING & UPDATING DATA
-        // ==========================================
-
-        // 1. Handle Create or Edit
-        async function handleFormSubmit(e) {
+        async function handleSave(e) {
             e.preventDefault();
-            
+            const btn = document.getElementById('saveBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+
             const name = document.getElementById('clientName').value;
             const pkg = document.getElementById('packageType').value;
             const price = 'RM ' + document.getElementById('priceValue').value;
-            const id = document.getElementById('editOrderId').value;
-            const btn = document.getElementById('saveBtn');
-
-            btn.disabled = true;
-            btn.innerText = "Saving...";
+            const id = document.getElementById('editId').value;
 
             try {
                 let payload = { action: 'create', name, package: pkg, price };
-
-                if (id) {
-                    // Editing existing
-                    payload.action = 'update_details';
-                    payload.id = id;
-                }
+                if(id) { payload.action = 'update_details'; payload.id = id; }
 
                 await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
+                    method: 'POST', mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                showToast(id ? "Order updated!" : "Order created!");
+                showToast(isEditing ? "Updated!" : "Created!");
                 closeModal();
-                
-                setTimeout(loadDashboardData, 1500); 
-
-            } catch (err) {
-                console.error(err);
-                showToast("Error saving data");
-            } finally {
+                setTimeout(loadData, 1000);
+            } catch (err) { showToast("Error saving"); }
+            finally {
+                btn.innerText = originalText;
                 btn.disabled = false;
-                btn.innerText = isEditing ? "Save Changes" : "Create Order";
             }
         }
 
-        // 2. Handle Status Change (Complete / Cancel / Undo)
-        async function updateStatus(id, newStatus) {
+        async function updateStatus(id, status) {
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
+                    method: 'POST', mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'update_status', id: id, newStatus: newStatus })
+                    body: JSON.stringify({ action: 'update_status', id, newStatus: status })
                 });
-
-                // Optimistic UI Update
-                const order = orders.find(o => o.id === id);
-                if(order) order.status = newStatus;
-                
-                renderDashboard();
-                showToast(`Order marked as ${newStatus}`);
-
-            } catch (err) {
-                console.error(err);
-                showToast("Error updating status");
-            }
+                const o = orders.find(x => x.id === id);
+                if(o) o.status = status;
+                renderAll();
+                showToast("Status Updated");
+            } catch(err) { showToast("Error"); }
         }
 
-        // ==========================================
-        // RENDERING LOGIC
-        // ==========================================
-
-        function renderDashboard() {
-            const pending = orders.filter(o => o.status === 'Pending').length;
-            const completed = orders.filter(o => o.status === 'Completed').length;
-            
-            let total = 0;
-            orders.forEach(o => {
-                if(o.status === 'Completed') {
-                    let val = parseInt(o.price.replace(/[^0-9]/g, '')); 
-                    if(!isNaN(val)) total += val;
-                }
-            });
-
-            document.getElementById('pendingOrdersCount').innerText = pending;
-            document.getElementById('completedOrdersCount').innerText = completed;
-            document.getElementById('totalRevenue').innerText = `RM ${total.toLocaleString()}`;
-
-            const tbody = document.getElementById('recent-orders-table');
-            tbody.innerHTML = `
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Client</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${orders.slice(0, 3).map(order => `
-                        <tr>
-                            <td style="font-weight:600;">${order.id}</td>
-                            <td>${order.name}</td>
-                            <td>${getStatusBadge(order.status)}</td>
-                            <td>${order.price}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            `;
-
-            renderOrdersTable();
+        // --- RENDER ---
+        function renderAll() {
+            renderStats();
+            renderTables();
             renderClients();
         }
 
-        function renderOrdersTable() {
-            const tbody = document.getElementById('orders-table-body');
-            const filter = document.getElementById('orderSearch').value.toLowerCase();
+        function renderStats() {
+            const rev = orders.filter(o => o.status === 'Completed').reduce((a, b) => a + parseInt(b.price.replace(/\D/g,'')||0), 0);
+            document.getElementById('statRevenue').innerText = `RM ${rev.toLocaleString()}`;
+            document.getElementById('statCompleted').innerText = orders.filter(o => o.status === 'Completed').length;
+            document.getElementById('statPending').innerText = orders.filter(o => o.status === 'Pending').length;
+        }
 
+        function renderTables() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
             const filtered = orders.filter(o => 
-                o.name.toLowerCase().includes(filter) || 
-                o.package.toLowerCase().includes(filter) ||
-                o.id.toLowerCase().includes(filter)
+                o.name.toLowerCase().includes(q) || 
+                o.package.toLowerCase().includes(q) || 
+                o.status.toLowerCase().includes(q)
             );
 
-            tbody.innerHTML = filtered.map(order => {
-                // Determine buttons based on status
-                let actionButtons = '';
+            const rows = filtered.map(o => {
+                const badgeClass = o.status === 'Completed' ? 'badge-completed' : 
+                                   o.status === 'Cancelled' ? 'badge-cancelled' : 'badge-pending';
                 
-                if (order.status === 'Pending') {
-                    actionButtons = `
-                        <button class="btn btn-primary btn-sm" onclick="updateStatus('${order.id}', 'Completed')">Complete</button>
-                        <button class="btn btn-danger btn-sm" onclick="updateStatus('${order.id}', 'Cancelled')">Cancel</button>
+                // Logic for Action Buttons
+                let actions = '';
+                if(o.status === 'Pending') {
+                    actions = `
+                        <button class="btn btn-primary text-xs" onclick="updateStatus('${o.id}', 'Completed')">Complete</button>
+                        <button class="btn btn-danger text-xs" onclick="updateStatus('${o.id}', 'Cancelled')">Cancel</button>
                     `;
-                } else if (order.status === 'Completed') {
-                    actionButtons = `<button class="btn btn-outline btn-sm" onclick="updateStatus('${order.id}', 'Pending')" title="Revert to Pending">Undo</button>`;
-                } else if (order.status === 'Cancelled') {
-                    actionButtons = `<button class="btn btn-primary btn-sm" onclick="updateStatus('${order.id}', 'Pending')" title="Reopen Order">Reopen</button>`;
+                } else {
+                    actions = `<button class="btn btn-outline text-xs" onclick="updateStatus('${o.id}', 'Pending')">Undo</button>`;
                 }
 
                 return `
                 <tr>
-                    <td style="font-weight:600; color:var(--text-secondary);">${order.id}</td>
-                    <td style="font-weight:500;">${order.name}</td>
-                    <td>${order.package}</td>
-                    <td style="font-weight:700;">${order.price}</td>
-                    <td>${getStatusBadge(order.status)}</td>
-                    <td style="font-size: 0.85rem; color: var(--text-secondary);">${order.date}</td>
-                    <td>
-                        <div class="flex gap-2 items-center">
-                            <!-- EDIT BUTTON -->
-                            <button class="btn btn-outline btn-icon" onclick="openEditModal('${order.id}')" title="Edit Order">
+                    <td data-label="Client" class="font-semibold">${o.name}</td>
+                    <td data-label="Package">${o.package}</td>
+                    <td data-label="Price">${o.price}</td>
+                    <td data-label="Status"><span class="badge ${badgeClass}">${o.status}</span></td>
+                    <td data-label="Date" class="text-xs text-secondary">${o.date}</td>
+                    <td data-label="Actions" style="text-align: right;">
+                        <div class="flex gap-2 items-center justify-end">
+                            <button class="btn btn-outline btn-icon w-auto" onclick="openEditModal('${o.id}')">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                             </button>
-                            <!-- STATUS BUTTONS -->
-                            <div class="flex gap-2">
-                                ${actionButtons}
-                            </div>
+                            <div class="flex gap-2">${actions}</div>
                         </div>
                     </td>
-                </tr>
-            `}).join('');
+                </tr>`;
+            }).join('');
+
+            document.querySelector('#recentTable tbody').innerHTML = rows;
+            document.querySelector('#ordersTable tbody').innerHTML = rows;
         }
 
         function renderClients() {
-            const container = document.getElementById('client-grid-container');
-            container.innerHTML = clients.map(c => `
-                <div class="client-card">
-                    <img src="${c.img}" class="client-avatar-lg" alt="${c.name}">
-                    <h3 style="font-size:1.1rem; margin-bottom:4px;">${c.name}</h3>
-                    <p style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:16px;">${c.industry}</p>
-                    <a href="https://github.com/ddnetwork-ent/clinic-azam-dental" target="_blank" class="btn btn-outline btn-sm">
-                        View Profile
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    </a>
+            document.getElementById('clientGrid').innerHTML = clients.map(c => `
+                <div class="card" style="align-items: center; text-align: center;">
+                    <div style="width: 48px; height: 48px; background: var(--bg-body); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--text-secondary); font-weight: 700;">${c.name.substring(0,1)}</div>
+                    <h3 class="font-semibold">${c.name}</h3>
+                    <p class="text-xs text-secondary" style="margin-bottom: 16px;">${c.industry}</p>
+                    <button class="btn btn-outline w-auto">View Profile</button>
                 </div>
             `).join('');
         }
 
-        // ==========================================
-        // UI HELPERS
-        // ==========================================
-
-        function openCreateModal() {
-            document.getElementById('orderForm').reset();
-            document.getElementById('editOrderId').value = ''; 
-            document.getElementById('modalTitle').innerText = 'Create New Order';
+        // --- MODAL & UTILS ---
+        function openModal() {
+            document.getElementById('orderForm')?.reset();
+            document.getElementById('modalTitle').innerText = 'Create Order';
             document.getElementById('saveBtn').innerText = 'Create Order';
+            document.getElementById('editId').value = '';
             isEditing = false;
-            document.getElementById('createModal').classList.add('active');
-            document.getElementById('clientName').focus();
+            document.getElementById('modalOverlay').classList.add('active');
         }
 
         function openEditModal(id) {
-            const order = orders.find(o => o.id === id);
-            if (!order) return;
-
-            document.getElementById('editOrderId').value = order.id; 
-            document.getElementById('clientName').value = order.name;
-            document.getElementById('packageType').value = order.package;
-            document.getElementById('priceValue').value = order.price.replace('RM ', ''); 
-
+            const o = orders.find(x => x.id === id);
+            if(!o) return;
+            document.getElementById('clientName').value = o.name;
+            document.getElementById('packageType').value = o.package;
+            document.getElementById('priceValue').value = o.price.replace('RM ', '');
             document.getElementById('modalTitle').innerText = 'Edit Order';
             document.getElementById('saveBtn').innerText = 'Save Changes';
+            document.getElementById('editId').value = o.id;
             isEditing = true;
-            document.getElementById('createModal').classList.add('active');
+            document.getElementById('modalOverlay').classList.add('active');
         }
 
         function closeModal() {
-            document.getElementById('createModal').classList.remove('active');
+            document.getElementById('modalOverlay').classList.remove('active');
         }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            const items = document.querySelectorAll('.nav-item');
-            if(tabId === 'dashboard') items[0].classList.add('active');
-            if(tabId === 'orders') items[1].classList.add('active');
-            if(tabId === 'clients') items[2].classList.add('active');
-
-            document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('hidden'));
-            document.getElementById(`view-${tabId}`).classList.remove('hidden');
-
-            const titles = {
-                'dashboard': ['Dashboard Overview', 'Welcome back to control center.'],
-                'orders': ['Order Management', 'Create, Edit, and manage client requests.'],
-                'clients': ['Client Database', 'Managed clients and their websites (Do check if there got any bugs).']
-            };
-            document.getElementById('page-header-title').innerText = titles[tabId][0];
-            document.getElementById('page-header-subtitle').innerText = titles[tabId][1];
-
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('open');
+        function handleSearch() {
+            renderTables();
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        function filterOrders() {
-            renderOrdersTable();
-        }
-
-        function getStatusBadge(status) {
-            let cls = 'badge-pending';
-            if(status === 'Completed') cls = 'badge-completed';
-            if(status === 'Cancelled') cls = 'badge-cancelled';
-            return `<span class="badge ${cls}">${status}</span>`;
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const msg = document.getElementById('toastMsg');
-            msg.innerText = message;
-            toast.classList.add('active');
-            setTimeout(() => {
-                toast.classList.remove('active');
-            }, 3000);
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('active');
+            setTimeout(() => t.classList.remove('active'), 3000);
         }
     </script>
 </body>
