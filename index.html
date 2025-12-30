@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DDNetwork One | Dashboard</title>
+    <title>DDN ONE [Internal]</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,39 +11,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- VARIABLES --- */
+        /* ==========================================
+           PORTAL THEME VARIABLES
+           ========================================== */
         :root {
-            --primary: #2563eb; /* Solid Blue */
-            --primary-dark: #1e40af;
-            --bg-body: #f1f5f9;
-            --bg-card: #ffffff;
-            --text-main: #0f172a;
-            --text-sub: #64748b;
-            --border: #e2e8f0;
+            /* Palette: Indigo & Slate (SaaS Professional) */
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            
+            --bg-body: #f8fafc; /* Slate 50 */
+            --bg-surface: #ffffff;
+            --bg-surface-hover: #f1f5f9;
+            
+            --text-main: #0f172a; /* Slate 900 */
+            --text-sub: #64748b; /* Slate 500 */
+            
+            --border: #e2e8f0; /* Slate 200 */
             
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
 
-            --sidebar-width: 260px;
-            --header-height: 60px;
+            --radius: 10px;
+            --radius-lg: 14px;
             
-            --radius: 8px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            
+            --sidebar-width: 260px;
+            --header-height: 64px;
         }
 
-        /* --- RESET --- */
+        /* ==========================================
+           GLOBAL RESET
+           ========================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-body);
+            background-color: var(--bg-body);
             color: var(--text-main);
             height: 100vh;
             overflow: hidden; /* Manage scroll inside containers */
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- UTILITIES --- */
+        /* ==========================================
+           UTILITIES
+           ========================================== */
         .hidden { display: none !important; }
         .flex { display: flex; }
         .flex-col { flex-direction: column; }
@@ -57,275 +73,452 @@
         .text-sm { font-size: 0.875rem; }
         .text-xs { font-size: 0.75rem; }
         .font-bold { font-weight: 700; }
-        .font-med { font-weight: 500; }
+        .font-medium { font-weight: 500; }
 
-        /* --- BUTTONS (Robust) --- */
+        /* ==========================================
+           COMPONENTS (Portal Style)
+           ========================================== */
+        
+        /* BUTTONS */
         .btn {
-            padding: 10px 16px;
+            padding: 10px 20px;
             border-radius: var(--radius);
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
             border: 1px solid transparent;
-            background: white;
+            background: var(--bg-surface);
             color: var(--text-main);
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 40px; /* Good touch target */
+            min-height: 40px;
             gap: 8px;
         }
 
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+        }
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25);
+        }
 
-        .btn-outline { border-color: var(--border); background: white; }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-outline {
+            border-color: var(--border);
+            background: white;
+        }
+        .btn-outline:hover {
+            background: var(--bg-surface-hover);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
 
-        .btn-danger { background: #fee2e2; color: var(--danger); border: 1px solid #fecaca; }
+        .btn-danger {
+            background: #fee2e2;
+            color: var(--danger);
+            border-color: #fecaca;
+        }
         .btn-danger:hover { background: #fecaca; }
 
-        .btn-sm { padding: 6px 12px; font-size: 0.8rem; min-height: 32px; }
-        .btn-icon { padding: 0; width: 40px; height: 40px; border-radius: 50%; border-color: var(--border); }
-
-        /* --- LOGIN SCREEN --- */
-        #login-screen {
-            width: 100%; height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-            background: #e2e8f0;
-            position: fixed; z-index: 999;
-        }
-        .login-card {
-            background: white; padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 100%; max-width: 400px;
-            text-align: center;
-        }
-        .login-logo { width: 60px; height: 60px; object-fit: cover; margin-bottom: 20px; border-radius: 8px; }
-        .login-input {
-            width: 100%; padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 1rem;
-        }
-        .login-input:focus { border-color: var(--primary); outline: none; }
-
-        /* --- APP LAYOUT --- */
-        #app-container {
-            display: flex;
-            width: 100%;
-            height: 100vh;
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            min-height: 32px;
         }
 
-        /* --- SIDEBAR --- */
-        aside {
-            width: var(--sidebar-width);
-            background: white;
-            border-right: 1px solid var(--border);
-            display: flex; flex-direction: column;
-            z-index: 20;
-            transition: transform 0.3s ease-in-out;
-        }
-        .brand {
-            height: var(--header-height);
-            display: flex; align-items: center; padding: 0 20px;
-            border-bottom: 1px solid var(--border);
-            font-weight: 700; font-size: 1.1rem; gap: 10px;
-        }
-        .brand img { width: 30px; height: 30px; border-radius: 6px; }
-
-        .nav-list { list-style: none; padding: 20px; flex: 1; overflow-y: auto; }
-        .nav-item {
-            padding: 12px 16px;
-            margin-bottom: 4px;
-            border-radius: var(--radius);
-            color: var(--text-sub);
-            cursor: pointer;
-            font-weight: 500;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .nav-item:hover { background: #f8fafc; color: var(--text-main); }
-        .nav-item.active { background: #eff6ff; color: var(--primary); }
-        .nav-item svg { width: 20px; height: 20px; }
-
-        .user-info {
-            padding: 20px; border-top: 1px solid var(--border);
-            display: flex; align-items: center; gap: 10px;
-        }
-        .avatar {
-            width: 36px; height: 36px; background: #eff6ff;
-            color: var(--primary); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-weight: 700;
+        .btn-icon {
+            padding: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-color: var(--border);
         }
 
-        /* --- MAIN CONTENT --- */
-        main {
-            flex: 1; display: flex; flex-direction: column;
-            background: var(--bg-body);
-            overflow: hidden; position: relative;
-        }
-
-        .top-header {
-            height: var(--header-height);
-            background: white;
-            border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px;
-            z-index: 10;
-        }
-        .page-title h1 { font-size: 1.25rem; font-weight: 700; }
-
-        /* SCROLLABLE AREA */
-        .scroll-area {
-            flex: 1; overflow-y: auto; padding: 30px;
-        }
-
-        /* --- WIDGETS & CARDS --- */
-        .grid-stats {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px; margin-bottom: 30px;
-        }
-        .stat-card {
-            background: white; padding: 20px; border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-        }
-        .stat-value { font-size: 1.8rem; font-weight: 700; margin: 8px 0; }
-        .stat-label { font-size: 0.85rem; color: var(--text-sub); font-weight: 500; text-transform: uppercase; }
-
-        /* --- TABLES (Clean Logic) --- */
-        .table-box {
-            background: white; border: 1px solid var(--border);
-            border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
-            margin-bottom: 30px;
-        }
-        .table-header {
-            padding: 16px 20px; border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-            background: #f9fafb;
-        }
-        .table-header h3 { font-size: 1rem; font-weight: 600; }
+        /* FORMS */
+        .form-group { margin-bottom: 20px; text-align: left; position: relative; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-main); letter-spacing: 0.02em; }
         
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 16px 20px; border-bottom: 1px solid var(--border); }
-        th {
-            background: #f9fafb; font-weight: 600; font-size: 0.75rem;
-            text-transform: uppercase; color: var(--text-sub);
+        .input-wrapper { position: relative; }
+        
+        .form-input {
+            width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: var(--radius);
+            font-size: 1rem; font-family: inherit; transition: 0.2s;
+            background: rgba(255, 255, 255, 0.5);
         }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #f8fafc; }
+        .form-input:focus { background: white; border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        textarea.form-input { resize: vertical; min-height: 90px; line-height: 1.5; }
 
+        .password-toggle {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer; color: var(--text-sub);
+            padding: 4px; display: flex; align-items: center; justify-content: center;
+        }
+        .password-toggle:hover { color: var(--text-main); }
+
+        /* WIDGETS */
+        .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 32px; }
+        .stat-card {
+            background: white; padding: 24px; border-radius: var(--radius-lg);
+            border: 1px solid var(--border); box-shadow: var(--shadow-md);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .stat-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .stat-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: #f1f5f9; color: var(--text-sub); font-size: 1.2rem;
+        }
+        .stat-val { font-size: 1.8rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+        .stat-lbl { font-size: 0.85rem; color: var(--text-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .bg-blue { color: white; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); }
+        .bg-green { color: white; background: linear-gradient(135deg, #34d399 0%, #10b981 100%); }
+        .bg-orange { color: white; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+
+        /* NATIVE TABLE (Desktop) */
+        .table-container {
+            background: white; border: 1px solid var(--border); border-radius: var(--radius-lg);
+            overflow: visible; /* No internal scroll on container, let table be native */
+            box-shadow: var(--shadow-md); margin-bottom: 32px;
+        }
+
+        .table-header {
+            padding: 16px 24px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            background: #f8fafc;
+        }
+        
+        table {
+            width: 100%; border-collapse: separate; border-spacing: 0; text-align: left;
+            table-layout: fixed; /* Consistent column widths */
+        }
+
+        th, td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: #f8fafc; color: var(--text-sub); font-weight: 600;
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;
+            position: sticky; top: 0; z-index: 5;
+            white-space: nowrap;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tbody tr:hover td { background: #f8fafc; }
+
+        .remark-cell {
+            color: var(--text-sub); font-size: 0.85rem; font-style: italic;
+            max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        /* STATUS PILLS */
         .status {
-            padding: 4px 10px; border-radius: 20px;
-            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            padding: 6px 14px; border-radius: 99px;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: inline-block;
+            letter-spacing: 0.02em;
         }
         .status-pending { background: #ffedd5; color: #d97706; }
         .status-completed { background: #d1fae5; color: #059669; }
         .status-cancelled { background: #fee2e2; color: #dc2626; }
 
-        /* --- MODAL --- */
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center; padding: 40px; color: var(--text-sub); font-style: italic; font-weight: 500;
+        }
+
+        /* MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transition: 0.2s;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px);
+            z-index: 100; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.2s;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
+        
         .modal {
-            background: white; width: 90%; max-width: 500px;
-            padding: 30px; border-radius: 12px;
-            box-shadow: 0 20px 25px rgba(0,0,0,0.2);
-            transform: scale(0.9); transition: 0.2s;
+            background: white; width: 90%; max-width: 540px; padding: 40px;
+            border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh; overflow-y: auto;
         }
         .modal-overlay.active .modal { transform: scale(1); }
 
-        /* --- LOADING --- */
+        /* LOADING */
         .loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.8); z-index: 2000;
+            background: rgba(255, 255, 255, 0.9); z-index: 2000;
             display: flex; align-items: center; justify-content: center;
         }
         .spinner {
-            width: 40px; height: 40px; border: 4px solid #e2e8f0;
+            width: 44px; height: 44px; border: 4px solid var(--border);
             border-top-color: var(--primary); border-radius: 50%;
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- TOAST --- */
+        /* TOAST */
         .toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: #0f172a; color: white; padding: 12px 24px;
-            border-radius: 50px; z-index: 3000; transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex; align-items: center; gap: 10px; font-weight: 500;
+            position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: #1e293b; color: white; padding: 14px 28px;
+            border-radius: 50px; z-index: 3000; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); font-weight: 600; display: flex; align-items: center; gap: 10px;
+            letter-spacing: 0.02em;
         }
         .toast.active { transform: translateX(-50%) translateY(0); }
 
-        /* --- MOBILE MENU BTN --- */
-        .menu-btn { display: none; background: none; border: none; cursor: pointer; }
-        .overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.3);
-            z-index: 15; display: none;
+        /* ==========================================
+           LOGIN SCREEN (UPDATED)
+           ========================================== */
+        .login-wrapper {
+            width: 100%; height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            padding: 20px;
+            position: absolute; top: 0; left: 0; z-index: 50;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        
+        .login-wrapper.fade-out {
+            opacity: 0; visibility: hidden; pointer-events: none;
         }
 
-        /* ============================
-           MOBILE RESPONSIVE (Crucial Fixes)
-           ============================ */
+        .login-card {
+            background: white; width: 100%; max-width: 420px;
+            padding: 40px; border-radius: 20px;
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 64px; height: 64px; border-radius: 16px;
+            margin-bottom: 24px; object-fit: cover;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+        }
+
+        .login-title {
+            font-size: 1.5rem; font-weight: 800; color: var(--text-main);
+            margin-bottom: 8px; letter-spacing: -0.5px;
+        }
+        
+        .login-subtitle {
+            font-size: 0.95rem; color: var(--text-sub); margin-bottom: 32px;
+        }
+
+        .login-error {
+            background: #fee2e2; color: #b91c1c; padding: 12px;
+            border-radius: var(--radius); font-size: 0.9rem; font-weight: 500;
+            margin-bottom: 24px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            border: 1px solid #fecaca;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Shake Animation for Error */
+        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ==========================================
+           APP LAYOUT (Portal Style)
+           ========================================== */
+        #app-container { display: flex; width: 100%; height: 100vh; }
+        
+        /* SIDEBAR */
+        aside {
+            width: var(--sidebar-width); background: white; border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; z-index: 20; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .brand {
+            height: var(--header-height); display: flex; align-items: center; padding: 0 24px;
+            border-bottom: 1px solid var(--border); font-weight: 700; font-size: 1.1rem;
+        }
+        .brand img { width: 32px; height: 32px; border-radius: 8px; margin-right: 12px; }
+
+        .nav-list { padding: 24px 16px; list-style: none; flex: 1; overflow-y: auto; }
+        .nav-item {
+            padding: 12px 16px; margin-bottom: 6px; border-radius: var(--radius);
+            color: var(--text-sub); cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 12px;
+            transition: all 0.2s;
+        }
+        .nav-item:hover { background: #f8fafc; color: var(--text-main); transform: translateX(4px); }
+        .nav-item.active { background: #eff6ff; color: var(--primary); font-weight: 600; box-shadow: 0 2px 4px rgba(79, 70, 229, 0.1); }
+        .nav-item svg { width: 20px; height: 20px; stroke-width: 2; }
+
+        .user-info { padding: 24px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+        .avatar {
+            width: 40px; height: 40px; background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+        }
+
+        /* MAIN CONTENT */
+        main { flex: 1; display: flex; flex-direction: column; background: var(--bg-body); overflow: hidden; position: relative; }
+        .top-header {
+            height: var(--header-height); background: white; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+            z-index: 10; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+        .page-title h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; }
+
+        .scroll-area { flex: 1; overflow-y: auto; padding: 32px; background: var(--bg-body); }
+
+        /* MOBILE NAV */
+        .mobile-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); z-index: 15; display: none; backdrop-filter: blur(2px); }
+        .menu-btn { display: none; background: none; border: none; cursor: pointer; color: var(--text-main); padding: 4px; border-radius: 8px; }
+        .menu-btn:active { background: #e2e8f0; }
+        .fab {
+            position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 50%;
+            background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            z-index: 50; display: none; align-items: center; justify-content: center; border: none; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .fab:active { transform: scale(0.9); }
+
+        /* ==========================================
+           MOBILE RESPONSIVE (THE FIX)
+           ========================================== */
         @media (max-width: 768px) {
-            /* 1. SIDEBAR BECOMES DRAWER */
-            aside {
-                position: fixed; height: 100%; left: 0;
-                transform: translateX(-100%); /* Hidden by default */
-                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            }
-            aside.open { transform: translateX(0); }
-            .overlay.active { display: block; }
+            
+            /* 1. SIDEBAR DRAWER */
+            aside { position: fixed; height: 100%; left: 0; transform: translateX(-100%); box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); }
+            aside.open { left: 0; transform: none; }
+            .mobile-overlay.active { display: block; }
             .menu-btn { display: block; }
-            .scroll-area { padding: 15px; } /* Less padding for mobile */
             
-            /* 2. STATS STACK VERTICALLY */
-            .grid-stats { grid-template-columns: 1fr; gap: 12px; }
+            .scroll-area { padding: 20px; } /* Less padding mobile */
+            .grid-stats { grid-template-columns: 1fr; gap: 16px; }
+            .stat-card { padding: 20px; }
+            .stat-val { font-size: 1.5rem; }
 
-            /* 3. SAFE TABLE TO CARD TRANSFORMATION */
-            /* We completely change table structure to Flex Cards to avoid layout bugs */
-            table, thead, tbody, th, td, tr { display: block; }
-            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            /* 2. TABLE TO CARD TRANSFORMATION (Robust) */
+            thead { display: none; } /* Hide table headers on mobile */
             
-            tr { 
-                background: white; border: 1px solid var(--border);
-                border-radius: 8px; padding: 16px;
-                margin-bottom: 16px; display: flex; flex-direction: column;
-                box-shadow: var(--shadow);
-            }
-            
-            td { 
-                border: none; padding: 0; display: flex; justify-content: space-between; align-items: center;
-                width: 100%; margin-bottom: 8px;
-            }
-            td:last-child { margin-bottom: 0; padding-top: 12px; border-top: 1px solid #f1f5f9; }
-
-            /* Data Labels (Simulated Headers) */
-            td::before {
-                content: attr(data-label); font-weight: 600; color: var(--text-sub); font-size: 0.85rem; margin-right: 10px;
+            /* Transform Rows into Cards */
+            tbody tr {
+                display: block; /* Treat row as a block card */
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 20px; /* Card padding */
+                box-shadow: var(--shadow-md);
+                margin-bottom: 16px;
             }
 
-            /* Specific Cell Tweaks */
-            td[data-label="Client"]::before { content: none; } /* Name is the title */
-            td[data-label="Client"] { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; justify-content: flex-start;}
+            /* Transform Cells into Flex Rows */
+            tbody td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                border: none; /* Remove cell borders */
+                padding: 12px 0; /* Top/Bottom spacing inside card */
+            }
             
-            td[data-label="Status"]::before { content: none; } /* Status is the badge */
-            td[data-label="Status"] { justify-content: flex-end; margin-bottom: 8px; }
+            /* Add separators inside card */
+            tbody td:not(:last-child) { border-bottom: 1px solid #f1f5f9; }
 
-            /* Buttons fix */
-            td[data-label="Actions"]::before { content: none; }
-            td[data-label="Actions"] { flex-wrap: wrap; gap: 8px; }
+            /* SIMULATED HEADERS */
+            /* Use ::before on specific cells to add labels */
+            tbody td::before {
+                content: attr(data-label);
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--text-sub);
+                display: none; /* Hidden by default */
+            }
             
-            /* Make buttons full width in card mode */
-            .btn { width: 100%; margin-bottom: 0; }
+            /* Only show label for specific fields */
+            tbody td[data-label="Client"] { display: block; }
+            tbody td[data-label="Client"]::before { display: none; }
+            
+            tbody td[data-label="Package"]::before { display: block; }
+            tbody td[data-label="Price"]::before { display: block; }
+            tbody td[data-label="Date"]::before { display: block; }
+            tbody td[data-label="Status"]::before { display: none; } /* Status is badge */
+            tbody td[data-label="Remarks"]::before { display: block; }
+            
+            /* Specific Styling for Card Title (Client Name) */
+            tbody td[data-label="Client"] {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--text-main);
+                margin-bottom: 16px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid #f1f5f9;
+                justify-content: flex-start; /* Align title left */
+            }
+
+            /* Specific Styling for Status (Badge) */
+            tbody td[data-label="Status"] {
+                justify-content: flex-end;
+                margin-bottom: 16px;
+            }
+
+            /* Specific Styling for Actions (Buttons) */
+            tbody td[data-label="Actions"] {
+                flex-wrap: wrap; /* Allow buttons to wrap */
+                gap: 8px;
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid #f1f5f9;
+            }
+            tbody td[data-label="Actions"]::before { display: none; }
+
+            /* Specific Styling for Remarks (Full Width Block) */
+            tbody td[data-label="Remarks"] {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            tbody td[data-label="Remarks"]::before { display: block; }
+
+            .mobile-remarks-content {
+                background: #f8fafc;
+                color: var(--text-main);
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                line-height: 1.4;
+                width: 100%;
+            }
+
+            /* Button Sizing on Mobile */
+            .btn { width: 48%; flex: 1; } /* 2 buttons per row */
+            .btn-sm { height: 40px; }
+            .btn-icon { width: auto; } /* Icon normal size */
+        }
+
+        /* DESKTOP RESTORE */
+        @media (min-width: 769px) {
+            /* Reset Table Display */
+            tbody tr { display: table-row; background: transparent; border: none; padding: 0; margin: 0; box-shadow: none; }
+            tbody td {
+                display: table-cell; border-bottom: 1px solid var(--border);
+                width: auto; padding: 16px 24px; /* Restore padding */
+                justify-content: inherit; /* Restore alignment */
+                text-align: left;
+                border-bottom: 1px solid var(--border);
+            }
+            tbody tr:last-child td { border-bottom: none; }
+            
+            /* Hide Mobile Elements */
+            tbody td::before { display: none; }
+            .mobile-remarks-content { display: none; }
+
+            /* Restore Button Size */
+            .btn { width: auto; flex: 0; }
         }
     </style>
 </head>
@@ -336,25 +529,48 @@
         <div class="spinner"></div>
     </div>
 
-    <!-- === LOGIN === -->
-    <div id="login-screen">
-        <div class="login-card">
+    <!-- === LOGIN (Improved Portal Style) === -->
+    <div id="login-screen" class="login-wrapper">
+        <div class="login-card" id="loginCard">
             <img src="https://raw.githubusercontent.com/ddnetwork-ent/DDN-One/refs/heads/main/DD-LOGO.JPEG" class="login-logo" alt="Logo">
-            <h2 style="margin-bottom: 10px;">DDN One</h2>
-            <p style="color: var(--text-sub); margin-bottom: 24px;">Internal Crew Dashboard</p>
-            <form onsubmit="handleLogin(event)">
-                <input type="text" id="username" class="login-input" placeholder="Username" required>
-                <input type="password" id="password" class="login-input" placeholder="Password" required>
-                <button type="submit" class="btn btn-primary w-full">Sign In</button>
+            <h2 class="login-title">Welcome Back</h2>
+            <p class="login-subtitle">Sign in to DDNetwork One Portal</p>
+            
+            <form onsubmit="handleLogin(event)" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-input" placeholder="Enter your username" required autocomplete="off">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <!-- Eye Icon -->
+                            <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loginError" class="login-error hidden">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>Invalid username or password</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full" style="height: 48px; margin-top: 12px;">Sign In</button>
             </form>
+            
+            <div style="margin-top: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
+                <p class="text-xs text-sub">Need help? Contact system administrator.</p>
+            </div>
         </div>
     </div>
 
     <!-- === APP === -->
-    <div id="app-container" class="hidden">
+    <div id="app-container" class="hidden" style="width: 100%; display: flex;">
         
-        <!-- Mobile Overlay -->
-        <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+        <div class="mobile-overlay" id="overlay" onclick="toggleSidebar()"></div>
 
         <!-- Sidebar -->
         <aside id="sidebar">
@@ -369,7 +585,7 @@
                     Dashboard
                 </li>
                 <li class="nav-item" onclick="switchTab('orders')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2 2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
                     Orders
                 </li>
                 <li class="nav-item" onclick="switchTab('clients')">
@@ -380,11 +596,11 @@
 
             <div class="user-info">
                 <div class="avatar" id="userInitials">DD</div>
-                <div style="flex:1">
+                <div style="flex:1;">
                     <h4 id="userName" class="font-bold" style="font-size: 0.9rem;">Danial Danish</h4>
                     <p id="userRole" class="text-xs text-sub">Admin</p>
                 </div>
-                <button class="btn btn-icon btn-outline" onclick="logout()">
+                <button class="btn btn-icon btn-outline" onclick="logout()" title="Logout">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 </button>
             </div>
@@ -393,14 +609,13 @@
         <!-- Main Content -->
         <main>
             <div class="top-header">
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-4">
                     <button class="menu-btn" onclick="toggleSidebar()">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
                     </button>
                     <div class="page-title"><h1 id="pageTitle">Dashboard</h1></div>
                 </div>
-                <!-- Quick Add Button (Desktop) -->
-                <button class="btn btn-primary btn-sm" style="display: none;" onclick="openModal()">New Order</button>
+                <button class="btn btn-primary btn-sm" style="display:none;" onclick="openModal()">New Order</button>
             </div>
 
             <div class="scroll-area">
@@ -409,28 +624,29 @@
                 <div id="view-dashboard">
                     <div class="grid-stats">
                         <div class="stat-card">
-                            <div class="stat-value" id="totalRevenue">RM 0</div>
-                            <div class="stat-label">Revenue</div>
+                            <div class="stat-header"><div class="stat-icon bg-blue">RM</div></div>
+                            <div class="stat-val" id="totalRevenue">0</div>
+                            <div class="stat-lbl">Revenue</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="completedCount">0</div>
-                            <div class="stat-label">Completed</div>
+                            <div class="stat-header"><div class="stat-icon bg-green">✓</div></div>
+                            <div class="stat-val" id="completedCount">0</div>
+                            <div class="stat-lbl">Completed</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="pendingCount">0</div>
-                            <div class="stat-label">Pending</div>
+                            <div class="stat-header"><div class="stat-icon bg-orange">⏳</div></div>
+                            <div class="stat-val" id="pendingCount">0</div>
+                            <div class="stat-lbl">Pending</div>
                         </div>
                     </div>
 
-                    <div class="table-box">
+                    <div class="table-container">
                         <div class="table-header">
-                            <h3>Recent Activity</h3>
+                            <span class="font-bold" style="font-size: 1rem;">Recent Activity</span>
                             <button class="btn btn-outline btn-sm" onclick="switchTab('orders')">View All</button>
                         </div>
                         <table id="recentTable">
-                            <thead>
-                                <tr><th>Client</th><th>Status</th><th>Amount</th></tr>
-                            </thead>
+                            <thead><tr><th>Client</th><th>Status</th><th>Amount</th><th>Remarks</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -438,23 +654,25 @@
 
                 <!-- VIEW: ORDERS -->
                 <div id="view-orders" class="hidden">
-                    <div class="table-box">
-                        <div class="table-header" style="flex-direction: column; align-items: stretch; gap: 10px;">
-                            <div class="flex justify-between items-center">
-                                <h3>All Orders</h3>
-                                <!-- Search (Desktop: Auto width, Mobile: Full width) -->
-                                <input type="text" id="searchInput" class="login-input" style="margin-bottom:0;" placeholder="Search client or package..." onkeyup="handleSearch()">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div class="w-full flex flex-col gap-2" style="align-items: stretch;">
+                                <input type="text" id="searchInput" class="form-input" style="margin-bottom:0;" placeholder="Search client, package, or remarks..." onkeyup="handleSearch()">
+                                <button class="btn btn-primary btn-sm" style="display:none;" onclick="openModal()">New Order</button>
                             </div>
                         </div>
+                        
+                        <!-- DESKTOP TABLE -->
                         <table id="ordersTable">
                             <thead>
                                 <tr>
                                     <th>Client</th>
                                     <th>Package</th>
                                     <th>Price</th>
-                                    <th>Status</th>
                                     <th>Date</th>
-                                    <th>Actions</th>
+                                    <th>Status</th>
+                                    <th>Remarks</th>
+                                    <th style="text-align: right;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -464,15 +682,13 @@
 
                 <!-- VIEW: CLIENTS -->
                 <div id="view-clients" class="hidden">
-                    <div class="grid-stats" id="clientList" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                        <!-- Populated via JS -->
-                    </div>
+                    <div class="grid-stats" id="clientList" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));"></div>
                 </div>
 
             </div>
 
             <!-- Floating Action Button (Mobile Only) -->
-            <button id="mobileFab" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 4px 12px rgba(37,99,235,0.4); z-index: 50; display: none;" onclick="openModal()">
+            <button id="fab" class="fab" onclick="openModal()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </button>
         </main>
@@ -481,29 +697,34 @@
     <!-- === MODAL === -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            <h2 class="font-bold" style="margin-bottom: 20px; font-size: 1.2rem;">Create Order</h2>
+            <h2 class="font-bold" style="margin-bottom: 24px; font-size: 1.5rem;" id="modalTitle">Create Order</h2>
             <input type="hidden" id="editId">
             <form onsubmit="handleSave(event)">
-                <div style="margin-bottom: 15px;">
-                    <label class="text-xs font-bold" style="display:block; margin-bottom:5px; color:var(--text-sub);">Client Name</label>
-                    <input type="text" id="clientName" class="login-input" required>
+                <div class="form-group">
+                    <label>Client Name</label>
+                    <input type="text" id="clientName" class="form-input" required>
                 </div>
-                <div style="margin-bottom: 15px;">
-                    <label class="text-xs font-bold" style="display:block; margin-bottom:5px; color:var(--text-sub);">Package</label>
-                    <select id="packageType" class="login-input" required>
+                <div class="form-group">
+                    <label>Package</label>
+                    <select id="packageType" class="form-input" required>
                         <option value="Front-End Website">Front-End Website</option>
                         <option value="AI Powered Website">AI Powered Website</option>
                         <option value="HTML Only (Static)">HTML Only (Static)</option>
                         <option value="Domain & Hosting">Domain & Hosting</option>
                     </select>
                 </div>
-                <div style="margin-bottom: 15px;">
-                    <label class="text-xs font-bold" style="display:block; margin-bottom:5px; color:var(--text-sub);">Price (RM)</label>
-                    <input type="text" id="priceValue" class="login-input" required>
+                <div class="form-group">
+                    <label>Price (RM)</label>
+                    <input type="text" id="priceValue" class="form-input" required>
                 </div>
-                <div class="flex gap-3" style="margin-top: 20px;">
-                    <button type="button" class="btn btn-outline w-full" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary w-full" id="saveBtn">Create Order</button>
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea id="remarkValue" class="form-input" placeholder="Enter any notes here..."></textarea>
+                </div>
+                
+                <div class="flex justify-between" style="margin-top: 32px;">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Create Order</button>
                 </div>
             </form>
         </div>
@@ -517,68 +738,104 @@
 
     <script>
         // --- CONFIG ---
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzesn4gtApx-HZuTaVoeOX9pk-YzoNLbbXHUnOtBwqTyGZxkjL3W1rNS5LbKsd6DXsEqA/exec";
-
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPnxubMhBBOIVfYxJJjyXlsOLSNbaQGXfG8t0jFCdQD6iVNXtdcDtApTkivFccnk5miA/exec";
+        
+        // Hardcoded Users (Frontend Demo Only)
         const users = [
             { user: 'danial', pass: 'dd1234', name: 'Danial Danish' },
             { user: 'bella', pass: 'bella123', name: 'Nurul Nabila' }
         ];
 
-        let orders = [];
+        let orders = []; // Full data set
         let currentUser = null;
         let isEditing = false;
 
         const clients = [
             { name: 'Klinik Pergigian Azam', industry: 'Healthcare' },
             { name: 'PNE Arena', industry: 'Sports' },
-            { name: 'Startup Malaysia', industry: 'Tech' }
+            { name: 'Startup Malaysia', industry: 'Technology' },
+            { name: 'Portfolio', industry: 'Personal' }
         ];
 
         // --- UI HELPERS ---
-        function showLoader(show) {
-            const l = document.getElementById('loader');
-            l.style.display = show ? 'flex' : 'none';
+        function showLoader(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; }
+        
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar'); const ol = document.getElementById('overlay');
+            if (sb.classList.contains('open')) { sb.classList.remove('open'); ol.classList.remove('active'); } 
+            else { sb.classList.add('open'); ol.classList.add('active'); }
+        }
+        
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 3000);
         }
 
-        function toggleSidebar() {
-            const sb = document.getElementById('sidebar');
-            const ol = document.getElementById('overlay');
-            if (sb.classList.contains('open')) {
-                sb.classList.remove('open');
-                ol.classList.remove('active');
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('eyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                // Change to crossed eye
+                icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
             } else {
-                sb.classList.add('open');
-                ol.classList.add('active');
+                input.type = 'password';
+                // Change to normal eye
+                icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             }
         }
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            t.classList.add('active');
-            setTimeout(() => t.classList.remove('active'), 3000);
-        }
-
-        // --- AUTH ---
+        // --- AUTH (Updated) ---
         function handleLogin(e) {
             e.preventDefault();
+            
             const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value.trim();
-            const found = users.find(x => x.user === u && x.pass === p);
+            const errorMsg = document.getElementById('loginError');
+            const loginCard = document.getElementById('loginCard');
+            
+            // 1. Reset Error State
+            errorMsg.classList.add('hidden');
+            loginCard.classList.remove('shake');
 
-            if(found) {
-                currentUser = found;
-                document.getElementById('userName').innerText = found.name;
-                document.getElementById('userInitials').innerText = found.name.split(' ').map(n=>n[0]).join('');
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('app-container').classList.remove('hidden');
-                loadData();
-            } else {
-                alert('Invalid credentials');
-            }
+            // 2. Validate (Simulate processing with slight delay for UX)
+            showLoader(true);
+            
+            setTimeout(() => {
+                const found = users.find(user => user.user === u && user.pass === p);
+
+                if(found) {
+                    currentUser = found;
+                    document.getElementById('userName').innerText = found.name;
+                    document.getElementById('userInitials').innerText = found.name.split(' ').map(n=>n[0]).join('');
+                    
+                    // 3. Transition Animation
+                    document.getElementById('login-screen').classList.add('fade-out');
+                    
+                    // Wait for fade out to finish before showing app
+                    setTimeout(() => {
+                        document.getElementById('login-screen').style.display = 'none';
+                        document.getElementById('app-container').classList.remove('hidden');
+                        loadData();
+                    }, 500);
+                    
+                } else { 
+                    // 4. Handle Error
+                    showLoader(false);
+                    errorMsg.classList.remove('hidden');
+                    loginCard.classList.add('shake');
+                    // Remove shake class after animation so it can run again
+                    setTimeout(() => loginCard.classList.remove('shake'), 500);
+                }
+            }, 600); // 600ms simulated delay
         }
 
-        function logout() { location.reload(); }
+        function logout() { 
+            // Reload page to reset state
+            location.reload(); 
+        }
 
         // --- DATA ---
         async function loadData() {
@@ -586,17 +843,79 @@
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL);
                 const data = await res.json();
+                
+                // Sort by Date Descending (Newest first)
                 orders = data.sort((a,b) => new Date(b.date) - new Date(a.date));
+                
                 renderAll();
-            } catch (err) {
-                console.error(err);
-                showToast("Error loading data");
-            } finally {
-                showLoader(false);
+            } catch (err) { console.error(err); showToast("Error loading data"); }
+            finally { showLoader(false); }
+        }
+
+        // --- CRUD ---
+        async function handleSave(e) {
+            e.preventDefault();
+            const btn = document.getElementById('saveBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+
+            const name = document.getElementById('clientName').value;
+            const pkg = document.getElementById('packageType').value;
+            const price = 'RM ' + document.getElementById('priceValue').value;
+            const remark = document.getElementById('remarkValue').value;
+            const id = document.getElementById('editId').value;
+
+            try {
+                let payload = { action: 'create', name, package: pkg, price, remarks: remark };
+                if(id) { payload.action = 'update_details'; payload.id = id; }
+
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                showToast(isEditing ? "Updated!" : "Created!");
+                closeModal();
+                setTimeout(loadData, 1000);
+            } catch (err) { showToast("Error saving"); }
+            finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
             }
         }
 
-        // --- RENDERING ---
+        async function updateStatus(id, status) {
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST', mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'update_status', id, newStatus: status })
+                });
+                
+                // Update local array directly for instant UI feedback
+                const idx = orders.findIndex(o => o.id === id);
+                if(idx !== -1) orders[idx].status = status;
+                
+                renderAll();
+                showToast(`Status: ${status}`);
+            } catch (err) { showToast("Error updating status"); }
+        }
+
+        // --- PAGINATION & SEARCH ---
+        function handleSearch() { renderAll(); }
+
+        function getFilteredOrders() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            return orders.filter(o => 
+                o.name.toLowerCase().includes(q) || 
+                o.package.toLowerCase().includes(q) || 
+                (o.remark || '').toLowerCase().includes(q)
+            );
+        }
+
+        // --- RENDERING (Robust) ---
         function renderAll() {
             renderStats();
             renderTables();
@@ -611,134 +930,98 @@
         }
 
         function renderTables() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = orders.filter(o => 
-                o.name.toLowerCase().includes(query) || o.package.toLowerCase().includes(query)
-            );
+            const filtered = getFilteredOrders();
+            const emptyMsg = '<tr><td colspan="7" class="empty-state">No orders found matching your search.</td></tr>';
 
-            const rowHtml = filtered.map(o => {
-                const statusClass = o.status === 'Completed' ? 'status-completed' : 
-                                   o.status === 'Cancelled' ? 'status-cancelled' : 'status-pending';
-                
+            // 1. DASHBOARD TABLE
+            const recentHtml = filtered.slice(0, 5).map(o => {
+                const badge = o.status === 'Completed' ? 'status-completed' : o.status === 'Cancelled' ? 'status-cancelled' : 'status-pending';
+                return `<tr>
+                    <td data-label="Client" class="font-bold">${o.name}</td>
+                    <td data-label="Status"><span class="status ${badge}">${o.status}</span></td>
+                    <td data-label="Amount" class="font-bold">${o.price}</td>
+                    <td data-label="Remarks" class="remark-cell">${o.remark || '-'}</td>
+                </tr>`;
+            }).join('');
+            document.querySelector('#recentTable tbody').innerHTML = recentHtml;
+
+            // 2. ORDERS TABLE (Desktop & Mobile Unified) - UPDATED COLUMN ORDER
+            const ordersHtml = filtered.map(o => {
+                const badge = o.status === 'Completed' ? 'status-completed' : o.status === 'Cancelled' ? 'status-cancelled' : 'status-pending';
                 let actions = '';
                 if(o.status === 'Pending') {
-                    actions = `<button class="btn btn-primary btn-sm" onclick="updateStatus('${o.id}', 'Completed')">Done</button>
-                             <button class="btn btn-danger btn-sm" onclick="updateStatus('${o.id}', 'Cancelled')">Cancel</button>`;
+                    actions = `<button class="btn btn-primary btn-sm" onclick="updateStatus('${o.id}', 'Completed')">Done</button><button class="btn btn-danger btn-sm" onclick="updateStatus('${o.id}', 'Cancelled')">X</button>`;
                 } else {
                     actions = `<button class="btn btn-outline btn-sm" onclick="updateStatus('${o.id}', 'Pending')">Undo</button>`;
                 }
 
-                return `
-                <tr>
+                // Order: Client | Package | Price | Date | Status | Remarks | Actions
+                return `<tr>
                     <td data-label="Client" class="font-bold">${o.name}</td>
-                    <td data-label="Package" class="text-sm text-sub">${o.package}</td>
+                    <td data-label="Package">${o.package}</td>
                     <td data-label="Price" class="font-bold">${o.price}</td>
-                    <td data-label="Status"><span class="status ${statusClass}">${o.status}</span></td>
                     <td data-label="Date" class="text-xs text-sub">${o.date}</td>
-                    <td data-label="Actions" style="text-align:right;">
+                    <td data-label="Status"><span class="status ${badge}">${o.status}</span></td>
+                    <td data-label="Remarks" class="remark-cell">${o.remark || '-'}</td>
+                    <td data-label="Actions" style="text-align: right;">
                         <button class="btn btn-icon btn-outline" onclick="openEdit('${o.id}')" title="Edit">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2 2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                         </button>
                         <div style="display:contents;">${actions}</div>
                     </td>
                 </tr>`;
             }).join('');
 
-            document.querySelector('#recentTable tbody').innerHTML = rowHtml;
-            document.querySelector('#ordersTable tbody').innerHTML = rowHtml;
+            const tbody = document.querySelector('#ordersTable tbody');
+            if(filtered.length === 0) {
+                tbody.innerHTML = emptyMsg;
+            } else {
+                tbody.innerHTML = ordersHtml;
+            }
         }
 
         function renderClients() {
             document.getElementById('clientList').innerHTML = clients.map(c => `
                 <div class="stat-card" style="text-align:center; align-items:center;">
-                    <h3 class="font-bold" style="margin-bottom:5px;">${c.name}</h3>
-                    <p class="text-sm text-sub" style="margin-bottom:15px;">${c.industry}</p>
+                    <div style="width: 60px; height: 60px; background: #eff6ff; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 20px;">${c.name.substring(0,1)}</div>
+                    <h3 class="font-bold" style="margin-bottom: 4px;">${c.name}</h3>
+                    <p class="text-xs text-sub" style="margin-bottom: 20px;">${c.industry}</p>
                     <button class="btn btn-outline w-full">View Profile</button>
                 </div>
             `).join('');
         }
 
-        // --- LOGIC ---
-        async function handleSave(e) {
-            e.preventDefault();
-            const btn = document.getElementById('saveBtn');
-            const oldText = btn.innerText;
-            btn.innerText = "Saving...";
-            btn.disabled = true;
-
-            const name = document.getElementById('clientName').value;
-            const pkg = document.getElementById('packageType').value;
-            const price = 'RM ' + document.getElementById('priceValue').value;
-            const id = document.getElementById('editId').value;
-
-            try {
-                let payload = { action: 'create', name, package: pkg, price };
-                if(id) { payload.action = 'update_details'; payload.id = id; }
-
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST', mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                showToast(isEditing ? "Updated!" : "Created!");
-                closeModal();
-                setTimeout(loadData, 1000);
-            } catch(err) { showToast("Error"); }
-            finally {
-                btn.innerText = oldText;
-                btn.disabled = false;
-            }
-        }
-
-        async function updateStatus(id, status) {
-            try {
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST', mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'update_status', id, newStatus: status })
-                });
-                const o = orders.find(x => x.id === id);
-                if(o) o.status = status;
-                renderAll();
-                showToast(`Status: ${status}`);
-            } catch(err) { showToast("Error"); }
-        }
-
-        function handleSearch() { renderTables(); }
-
+        // --- MODALS & TABS ---
         function openEdit(id) {
             const o = orders.find(x => x.id === id);
             if(!o) return;
             document.getElementById('clientName').value = o.name;
             document.getElementById('packageType').value = o.package;
             document.getElementById('priceValue').value = o.price.replace('RM ', '');
+            document.getElementById('remarkValue').value = o.remark || '';
             document.getElementById('editId').value = o.id;
-            isEditing = true;
-            document.querySelector('#modal h2').innerText = 'Edit Order';
+            document.getElementById('modalTitle').innerText = 'Edit Order';
             document.getElementById('saveBtn').innerText = 'Save Changes';
+            isEditing = true;
             document.getElementById('modal').classList.add('active');
         }
 
         function openModal() {
-            document.getElementById('clientName').value = '';
-            document.getElementById('packageType').value = 'Front-End Website';
-            document.getElementById('priceValue').value = '';
+            document.getElementById('clientName').value = ''; document.getElementById('packageType').value = 'Front-End Website';
+            document.getElementById('priceValue').value = ''; document.getElementById('remarkValue').value = '';
             document.getElementById('editId').value = '';
-            isEditing = false;
-            document.querySelector('#modal h2').innerText = 'Create Order';
+            document.getElementById('modalTitle').innerText = 'Create Order';
             document.getElementById('saveBtn').innerText = 'Create Order';
+            isEditing = false;
             document.getElementById('modal').classList.add('active');
         }
 
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
-
+        function closeModal() { document.getElementById('modal').classList.remove('active'); }
+        
         function switchTab(tab) {
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            const idx = { 'dashboard':0, 'orders':1, 'clients':2 }[tab];
-            document.querySelectorAll('.nav-item')[idx].classList.add('active');
+            const map = { 'dashboard':0, 'orders':1, 'clients':2 }[tab];
+            document.querySelectorAll('.nav-item')[map].classList.add('active');
 
             document.getElementById('view-dashboard').classList.add('hidden');
             document.getElementById('view-orders').classList.add('hidden');
@@ -747,15 +1030,25 @@
 
             document.getElementById('pageTitle').innerText = tab.charAt(0).toUpperCase() + tab.slice(1);
 
+            // Reset Search
+            if(tab !== 'orders') {
+                document.getElementById('searchInput').value = '';
+                renderTables(); // Re-render to clear search
+            } else {
+                // If clicking orders, re-render to ensure correct empty state
+                if(tab === 'orders') renderTables();
+            }
+
+            // Close mobile drawer
             if(window.innerWidth <= 768) {
                 const sb = document.getElementById('sidebar');
                 if(sb.classList.contains('open')) toggleSidebar();
             }
         }
 
-        // Mobile FAB visibility toggle
+        // --- RESPONSIVE FAB LOGIC ---
         window.addEventListener('resize', () => {
-            const fab = document.getElementById('mobileFab');
+            const fab = document.getElementById('fab');
             const btn = document.querySelector('.top-header .btn');
             if(window.innerWidth <= 768) {
                 fab.style.display = 'flex';
@@ -765,7 +1058,7 @@
                 btn.style.display = 'inline-flex';
             }
         });
-        // Trigger once on load
+        // Trigger once
         window.dispatchEvent(new Event('resize'));
     </script>
 </body>
