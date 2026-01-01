@@ -105,10 +105,30 @@
             box-shadow: var(--shadow-sm);
         }
 
+        .btn:active { transform: scale(0.98); }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 1px solid transparent;
+        }
+        .btn-primary:hover { background: var(--primary-hover); }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--bg-surface-hover);
+        }
+
         /* MINIMALIST ACTION BUTTONS */
         .btn-action {
             height: 28px; /* SMALLER HEIGHT */
-            padding: 0 12px; /* TIGHT PADDING */
+            padding: 0 12px;
             font-size: 0.75rem; /* SMALLER TEXT */
             font-weight: 500;
             border-radius: 6px; /* STANDARD RADIUS */
@@ -128,7 +148,7 @@
         }
         .btn-edit:hover {
             background: #f8fafc;
-            border-color: #cbd5e1;
+            border-color: var(--primary);
             color: #0f172a;
         }
 
@@ -153,7 +173,7 @@
             background: var(--primary-hover);
         }
 
-        /* 4. UNDO - Minimal Neutral */
+        /* 4. UNDO - Neutral Minimal */
         .btn-undo {
             background: white;
             color: #64748b;
@@ -177,38 +197,6 @@
             background: #fef2f2;
             color: #dc2626;
         }
-
-        /* Other buttons */
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: 1px solid transparent;
-        }
-        .btn-primary:hover { background: var(--primary-hover); }
-
-        .btn-outline {
-            background: white;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-        }
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--bg-surface-hover);
-        }
-        .btn-sm {
-            height: 2rem; 
-            padding: 0 0.875rem;
-            font-size: 0.8rem;
-            border-radius: 6px;
-        }
-        .btn-icon {
-            width: 28px; /* MATCH ACTION HEIGHT */
-            height: 28px;
-            padding: 0;
-            border-radius: 6px;
-        }
-        .btn-icon:hover { background: var(--bg-surface-hover); }
 
         /* FORMS */
         .form-group { margin-bottom: 1.25rem; text-align: left; position: relative; }
@@ -374,19 +362,76 @@
         }
         .modal-overlay.active .modal { transform: scale(1); }
 
-        /* LOADING */
-        .loader {
+        /* ANIMATED LOADING - NEW FEATURES */
+        .loader-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255, 255, 0.8); z-index: 2000;
+            background: rgba(255, 255, 255, 0.95); /* Slight opacity reduction for text readability */
+            z-index: 2000;
+            display: flex; flex-direction: column; /* Column layout */
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(8px); /* Stronger blur for focus */
+            opacity: 0;
+            visibility: hidden;
+            animation: fadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Fade in overlay */
+        }
+        .loader-wrapper.active { opacity: 1; visibility: visible; }
+
+        .spinner-container {
+            position: relative; /* Relative to hold spinner and ripple */
+            width: 64px; height: 64px; /* Larger area */
             display: flex; align-items: center; justify-content: center;
-            backdrop-filter: blur(2px);
         }
+
         .spinner {
-            width: 40px; height: 40px; border: 3px solid var(--border);
-            border-top-color: var(--primary); border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            width: 50px; /* Larger Spinner */
+            height: 50px;
+            border: 5px solid rgba(79, 70, 229, 0.15); /* Thicker Border, semi-transparent */
+            border-top-color: var(--primary); /* Brand Color Top */
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite; /* Slightly faster */
+            position: relative;
+            z-index: 2;
         }
+
+        /* PULSE RING ANIMATION - The "Data is working" effect */
+        .ripple {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--primary); /* Matches border */
+            opacity: 0;
+            animation: ripple 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            z-index: 1; /* Behind spinner */
+        }
+
         @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes ripple {
+            0% { transform: scale(0.7); opacity: 0; }
+            40% { opacity: 0.3; }
+            50% { opacity: 0; transform: scale(1.2); } /* Fast expansion */
+            100% { opacity: 0; transform: scale(1.4); } /* Slow fade out */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .loading-text {
+            margin-top: 24px; /* Space from spinner */
+            color: var(--text-main); /* Darker text for contrast */
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: textFadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: 0.2s; /* Stagger effect */
+        }
+
+        @keyframes textFadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* TOAST */
         .toast {
@@ -555,9 +600,13 @@
 </head>
 <body>
 
-    <!-- === LOADING OVERLAY === -->
-    <div id="loader" class="loader hidden">
-        <div class="spinner"></div>
+    <!-- === ANIMATED LOADING OVERLAY === -->
+    <div id="loader" class="loader-wrapper">
+        <div class="spinner-container">
+            <div class="ripple"></div> <!-- PULSE ANIMATION RING -->
+            <div class="spinner"></div>
+        </div>
+        <div class="loading-text">Loading Data...</div>
     </div>
 
     <!-- === LOGIN === -->
@@ -774,7 +823,11 @@
         const clients = [{ name: 'Klinik Pergigian Azam', industry: 'Healthcare' }, { name: 'PNE Arena', industry: 'Sports' }, { name: 'Startup Malaysia', industry: 'Technology' }, { name: 'Portfolio', industry: 'Personal' }];
 
         // --- UI HELPERS ---
-        function showLoader(show) { document.getElementById('loader').style.display = show ? 'flex' : 'none'; }
+        function showLoader(show) { 
+            const loader = document.getElementById('loader');
+            if(show) loader.classList.add('active');
+            else loader.classList.remove('active');
+        }
         function toggleSidebar() {
             const sb = document.getElementById('sidebar'); const ol = document.getElementById('overlay');
             if (sb.classList.contains('open')) { sb.classList.remove('open'); ol.classList.remove('active'); } 
@@ -789,7 +842,7 @@
             if (input.type === 'password') {
                 input.type = 'text'; icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
             } else {
-                input.type = 'password'; icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                input.type = 'password'; icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
             }
         }
 
@@ -836,7 +889,7 @@ DDNetwork One`;
 
         // --- DATA ---
         async function loadData() {
-            showLoader(true);
+            showLoader(true); // Activate loader with animations
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL); const data = await res.json();
                 orders = data.sort((a,b) => new Date(b.date) - new Date(a.date)); renderAll();
@@ -894,7 +947,7 @@ DDNetwork One`;
             }).join('');
             document.querySelector('#recentTable tbody').innerHTML = recentHtml;
 
-            // 2. FULL ORDERS TABLE (Detailed view) - MINIMALIST BUTTONS
+            // 2. FULL ORDERS TABLE (Detailed view) - ANIMATED BUTTONS
             const ordersHtml = filtered.map(o => {
                 const badge = o.status === 'Completed' ? 'status-completed' : o.status === 'Cancelled' ? 'status-cancelled' : 'status-pending';
                 const phoneDisplay = o.phone || '-';
@@ -906,25 +959,26 @@ DDNetwork One`;
                         <button class="btn btn-action btn-done" onclick="updateStatus('${o.id}', 'Completed')" title="Done">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                         </button>
-                        <button class="btn btn-action btn-cancel" onclick="updateStatus('${o.id}', 'Cancelled')" title="Cancel">
+                        <button class="btn btn-action btn-cancel" onclick="updateStatus('${o.id}', 'Cancelled')" title="Cancel Order">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>`;
                 } else {
                     actionButtons = `
-                        <button class="btn btn-action btn-undo" onclick="updateStatus('${o.id}', 'Pending')" title="Undo">
+                        <button class="btn btn-action btn-undo" onclick="updateStatus('${o.id}', 'Pending')" title="Revert">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+                            Undo
                         </button>`;
                 }
 
-                // WA Button (Minimal)
+                // WA Button (Standard Icon)
                 const waBtn = `
                     <button class="btn btn-action btn-whatsapp" onclick="openWhatsApp('${o.name}', '${o.phone}')" title="WhatsApp">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     </button>`;
 
-                // Edit Button (Minimal)
+                // Edit Icon (Square Outline)
                 const editBtn = `
-                    <button class="btn btn-action btn-edit" onclick="openEdit('${o.id}')" title="Edit">
+                    <button class="btn btn-action btn-edit" onclick="openEdit('${o.id}')" title="Edit Order">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2 2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                     </button>`;
 
